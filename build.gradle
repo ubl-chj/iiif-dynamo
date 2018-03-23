@@ -1,0 +1,114 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+    }
+}
+
+plugins {
+    id 'net.researchgate.release' version '2.6.0'
+    id 'com.github.hierynomus.license' version '0.14.0'
+    id 'io.codearte.nexus-staging' version '0.9.0'
+    id 'org.dm.bundle' version '0.10.0'
+}
+
+ext {
+    name = 'IIIF Dynamic'
+    description = 'A Camel LDP implementation'
+    vendor = 'pandorasystems'
+    homepage = 'http://www.trellisldp.org'
+    url = 'http://www.trellisldp.org/apidocs'
+    license = 'Apache 2'
+    inceptionYear = '2017'
+}
+
+
+configure(allprojects) { project ->
+
+    group = 'org.ubl.iiif.dynamic'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
+
+    ext {
+        /* Dependencies */
+        camelVersion = '2.20.0'
+        jsonldVersion = "0.11.1"
+
+        /* Testing */
+        jaxbVersion = '2.3.0'
+        javaxActivationVersion = '1.1.1'
+        junitVersion = '5.0.1'
+        junitPlatformVersion = '1.0.1'
+        jaxbVersion = '2.3.0'
+        jenaVersion = '3.5.0'
+        activationVersion = '1.1.1'
+        logbackVersion = '1.2.3'
+        apiguardianVersion = '1.0.0'
+
+        /* OSGi */
+        camelVersionRange = '[2.16,3)'
+        projectOsgiVersion = project.version.replaceAll("-SNAPSHOT", ".SNAPSHOT")
+        defaultOsgiImports = 'org.osgi.service.blueprint;version="[1,2)",*'
+
+        jacocoVersion = '0.8.0'
+        checkstyleVersion = '8.8'
+    }
+}
+
+subprojects {
+    apply plugin: 'application'
+    apply plugin: 'maven'
+    apply plugin: 'org.dm.bundle'
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+    apply plugin: 'checkstyle'
+    apply plugin: 'com.github.hierynomus.license'
+
+    sourceCompatibility = 1.9
+    targetCompatibility = 1.9
+
+    checkstyle {
+        configFile = rootProject.file('buildtools/src/main/resources/checkstyle/checkstyle.xml')
+        configProperties.checkstyleConfigDir = rootProject.file('buildtools/src/main/resources/checkstyle/')
+        toolVersion = checkstyleVersion
+    }
+
+    license {
+        include "**/*.java"
+        header rootProject.file('buildtools/src/main/resources/license/HEADER.txt')
+        strictCheck true
+        mapping {
+            java = 'SLASHSTAR_STYLE'
+        }
+    }
+}
+
+project("dynamo") {
+    mainClassName = 'org.ubl.iiif.dynamic.Selector'
+    description = 'A Camel service that assembles manifests from RDF queries'
+
+    dependencies {
+        compile group: 'javax.activation', name: 'activation', version: javaxActivationVersion
+        compile group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbVersion
+        compile group: 'org.apache.camel', name: 'camel-jetty9', version: camelVersion
+        compile group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
+        compile group: 'com.github.jsonld-java', name: 'jsonld-java', version: jsonldVersion
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+        testImplementation group: 'org.apiguardian', name: 'apiguardian-api', version: apiguardianVersion
+        testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: junitPlatformVersion
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+        testImplementation group: 'org.apache.camel', name: 'camel-test', version: camelVersion
+        testImplementation group: 'org.apache.camel', name: 'camel-jetty9', version: camelVersion
+        testImplementation group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
+        testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+        testImplementation group: 'org.apache.camel', name: 'camel-test-blueprint', version: camelVersion
+    }
+}
