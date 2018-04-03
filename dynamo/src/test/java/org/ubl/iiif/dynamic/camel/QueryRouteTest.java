@@ -60,66 +60,72 @@ public final class QueryRouteTest {
 
                 from("jetty:http://{{rest.host}}:{{rest.port}}{{rest.prefix}}?"
                         + "optionsEnabled=true&matchOnUriPrefix=true&sendServerVersion=false"
-                        + "&httpMethodRestrict=GET,OPTIONS").routeId("Sparqler")
-                                                            .removeHeaders(HTTP_ACCEPT)
-                                                            .choice()
-                                                            .when(header(HTTP_METHOD).isEqualTo("GET"))
-                                                            .to("direct:sparql");
-                from("direct:sparql").routeId("SparqlerGet")
-                                     .choice()
-                                     .when(header(SPARQL_QUERY).isEqualTo("meta"))
-                                     .setHeader(HTTP_METHOD)
-                                     .constant("POST")
-                                     .setHeader(CONTENT_TYPE)
-                                     .constant("application/x-www-form-urlencoded; " + "charset=utf-8")
-                                     .setHeader(HTTP_ACCEPT)
-                                     .constant("application/n-triples")
-                                     .process(e -> e.getIn()
-                                                    .setBody(sparqlSelect(
-                                                            QueryUtils.getQuery("canvas-anno.rq", getV1(e), getV2(e)))))
-                                     .log(LoggingLevel.INFO, LOGGER, String.valueOf(body()))
-                                     .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
-                                     .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))
-                                     .setHeader(CONTENT_TYPE)
-                                     .constant("application/n-triples")
-                                     .convertBodyTo(String.class)
-                                     .log(LoggingLevel.INFO, LOGGER, "Getting query results as n-triples")
-                                     .to("direct:toJsonLd");
-                from("direct:toJsonLd").routeId("JsonLd")
-                                       .log(LoggingLevel.INFO, LOGGER, "Serializing n-triples as Json-Ld")
-                                       .process(e -> {
-                                           try {
-                                               final String contentType = e.getIn()
-                                                                           .getHeader(SPARQL_QUERY, String.class);
-                                               if (Objects.equals(contentType, "meta")) {
-                                                   final String contextUri = "context.json";
-                                                   final String frameUri = "anno-frame.json";
-                                                   e.getIn()
-                                                    .setBody(FromRdf.toJsonLd(e.getIn()
-                                                                               .getBody()
-                                                                               .toString(), contextUri, frameUri));
-                                               }
-                                           } catch (final Exception ex) {
-                                               throw new RuntimeCamelException("Couldn't serialize to JsonLd", ex);
-                                           }
-                                       })
-                                       .removeHeader(HTTP_ACCEPT)
-                                       .setHeader(HTTP_METHOD)
-                                       .constant("GET")
-                                       .setHeader(HTTP_CHARACTER_ENCODING)
-                                       .constant("UTF-8")
-                                       .setHeader(CONTENT_TYPE)
-                                       .constant("application/ld+json")
-                                       .to("direct:buildManifest");
-                from("direct:buildManifest").routeId("ManifestBuilder")
-                                            .log(LoggingLevel.INFO, LOGGER, "Building Manifest")
-                                            .process(e -> {
-                                                final ManifestBuilder builder = new ManifestBuilder(e.getIn()
-                                                                                               .getBody()
-                                                                                               .toString());
-                                                e.getIn()
-                                                 .setBody(builder.build());
-                                            });
+                        + "&httpMethodRestrict=GET,OPTIONS")
+                        .routeId("Sparqler")
+                        .removeHeaders(HTTP_ACCEPT)
+                        .setHeader("Access-Control-Allow-Origin")
+                        .constant("*")
+                        .choice()
+                        .when(header(HTTP_METHOD).isEqualTo("GET"))
+                        .to("direct:sparql");
+                from("direct:sparql")
+                        .routeId("SparqlerGet")
+                        .choice()
+                        .when(header(SPARQL_QUERY).isEqualTo("meta"))
+                        .setHeader(HTTP_METHOD)
+                        .constant("POST")
+                        .setHeader(CONTENT_TYPE)
+                        .constant("application/x-www-form-urlencoded; " + "charset=utf-8")
+                        .setHeader(HTTP_ACCEPT)
+                        .constant("application/n-triples")
+                        .process(e -> e.getIn()
+                                       .setBody(sparqlSelect(
+                                               QueryUtils.getQuery("canvas-anno.rq", getV1(e), getV2(e)))))
+                        .log(LoggingLevel.INFO, LOGGER, String.valueOf(body()))
+                        .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
+                        .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))
+                        .setHeader(CONTENT_TYPE)
+                        .constant("application/n-triples")
+                        .convertBodyTo(String.class)
+                        .log(LoggingLevel.INFO, LOGGER, "Getting query results as n-triples")
+                        .to("direct:toJsonLd");
+                from("direct:toJsonLd")
+                        .routeId("JsonLd")
+                        .log(LoggingLevel.INFO, LOGGER, "Serializing n-triples as Json-Ld")
+                        .process(e -> {
+                            try {
+                                final String contentType = e.getIn()
+                                                            .getHeader(SPARQL_QUERY, String.class);
+                                if (Objects.equals(contentType, "meta")) {
+                                    final String contextUri = "context.json";
+                                    final String frameUri = "anno-frame.json";
+                                    e.getIn()
+                                     .setBody(FromRdf.toJsonLd(e.getIn()
+                                                                .getBody()
+                                                                .toString(), contextUri, frameUri));
+                                }
+                            } catch (final Exception ex) {
+                                throw new RuntimeCamelException("Couldn't serialize to JsonLd", ex);
+                            }
+                        })
+                        .removeHeader(HTTP_ACCEPT)
+                        .setHeader(HTTP_METHOD)
+                        .constant("GET")
+                        .setHeader(HTTP_CHARACTER_ENCODING)
+                        .constant("UTF-8")
+                        .setHeader(CONTENT_TYPE)
+                        .constant("application/ld+json")
+                        .to("direct:buildManifest");
+                from("direct:buildManifest")
+                        .routeId("ManifestBuilder")
+                        .log(LoggingLevel.INFO, LOGGER, "Building Manifest")
+                        .process(e -> {
+                            final ManifestBuilder builder = new ManifestBuilder(e.getIn()
+                                                                                 .getBody()
+                                                                                 .toString());
+                            e.getIn()
+                             .setBody(builder.build());
+                        });
             }
         });
 

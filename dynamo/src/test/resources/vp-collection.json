@@ -1,0 +1,21 @@
+{
+  "metadata": [
+    {
+      "label": "Collection Description",
+      "value": "Personal und Vorlesungsverzeichnisse"
+    }
+  ],
+  "@type": "sc:Collection",
+  "attribution": "Provided by Leipzig University",
+  "manifests": [
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1641&v2=",
+      "label": "GTM-860903: Box 4 Folder 30"
+    }
+  ],
+  "logo": "http://iiif.ub.uni-leipzig.de/ubl-logo.png",
+  "label": "(no label)",
+  "@id": "trellis:data/collection/vp/",
+  "@context": "http://iiif.io/api/presentation/2/context.json"
+}

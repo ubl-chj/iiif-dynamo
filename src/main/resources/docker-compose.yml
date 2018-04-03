@@ -7,3 +7,9 @@ services:
     restart: always
     ports:
       - "9095:9095"
+    networks:
+      - 110_default
+
+networks:
+  110_default:
+    external: true
