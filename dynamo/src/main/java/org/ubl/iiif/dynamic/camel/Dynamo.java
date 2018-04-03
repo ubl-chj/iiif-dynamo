@@ -70,12 +70,12 @@ public class Dynamo {
 
         @Override
         public void afterStart(final MainSupport main) {
-            System.out.println("Selector is now started!");
+            System.out.println("Dynamo is now started!");
         }
 
         @Override
         public void beforeStop(final MainSupport main) {
-            System.out.println("Selector is now being stopped!");
+            System.out.println("Dynamo is now being stopped!");
         }
     }
 

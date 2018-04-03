@@ -16,7 +16,7 @@ plugins {
 }
 
 ext {
-    name = 'IIIF Dynamic'
+    name = 'IIIF Dynamo'
     description = 'A Camel LDP implementation'
     vendor = 'pandorasystems'
     homepage = 'http://www.trellisldp.org'
@@ -92,7 +92,7 @@ subprojects {
 }
 
 project("dynamo") {
-    mainClassName = 'org.ubl.iiif.dynamic.Selector'
+    mainClassName = 'org.ubl.iiif.dynamic.camel.Dynamo'
     description = 'A Camel service that assembles manifests from RDF queries'
 
     dependencies {
