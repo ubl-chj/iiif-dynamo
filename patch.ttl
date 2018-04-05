@@ -1,7 +1,0 @@
-@prefix acl: <http://www.w3.org/ns/auth/acl#>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-
-<#authorization> a acl:Authorization;
-    acl:agentClass foaf:Agent;  # everyone
-    acl:mode acl:Read; acl:Write;  # has Read-only access
-    acl:accessTo <https://localhost:8445/collection/vp/res>

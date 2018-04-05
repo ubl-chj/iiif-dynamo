@@ -24,7 +24,6 @@ import static org.ubl.iiif.dynamic.QueryUtils.getQuery;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.Objects;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
@@ -36,9 +35,14 @@ import org.apache.camel.main.MainListenerSupport;
 import org.apache.camel.main.MainSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.ubl.iiif.dynamic.webanno.CollectionBuilder;
 import org.ubl.iiif.dynamic.webanno.ManifestBuilder;
 
-
+/**
+ * Dynamo.
+ *
+ * @author christopher-johnson
+ */
 public class Dynamo {
 
     /**
@@ -50,6 +54,10 @@ public class Dynamo {
         selector.init();
     }
 
+    /**
+     * @param command String
+     * @return String
+     */
     private static String sparqlConstruct(final String command) {
         try {
             return "query=" + encode(command, "UTF-8");
@@ -58,6 +66,9 @@ public class Dynamo {
         }
     }
 
+    /**
+     * @throws Exception Exception
+     */
     private void init() throws Exception {
         final Main main = new Main();
         main.addRouteBuilder(new QueryRoute());
@@ -65,6 +76,9 @@ public class Dynamo {
         main.run();
     }
 
+    /**
+     * Events.
+     */
     public static class Events extends MainListenerSupport {
 
         @Override
@@ -78,21 +92,34 @@ public class Dynamo {
         }
     }
 
+    /**
+     * QueryRoute.
+     */
     public static class QueryRoute extends RouteBuilder {
 
-        private static final Logger LOGGER = LoggerFactory.getLogger(QueryRoute.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(Dynamo.class);
 
+        private static final String contentTypeNTriples = "application/n-triples";
+        private static final String contentTypeJsonLd = "application/ld+json";
         private static final String HTTP_ACCEPT = "Accept";
         private static final String SPARQL_QUERY = "type";
         private static final String V1_SET = "v1";
         private static final String V2_SET = "v2";
 
+        /**
+         * @param e Exchange
+         * @return String
+         */
         private static String getV1(final Exchange e) {
             final Object optHdr = e.getIn()
                                    .getHeader(V1_SET);
             return (String) optHdr;
         }
 
+        /**
+         * @param e Exchange
+         * @return String
+         */
         private static String getV2(final Exchange e) {
             final Object optHdr = e.getIn()
                                    .getHeader(V2_SET);
@@ -100,7 +127,7 @@ public class Dynamo {
         }
 
         /**
-         *
+         * configure.
          */
         public void configure() {
 
@@ -120,39 +147,60 @@ public class Dynamo {
             from("direct:sparql")
                     .routeId("SparqlerGet")
                     .choice()
-                    .when(header(SPARQL_QUERY).isEqualTo("meta"))
+                        .when(header(SPARQL_QUERY).isEqualTo("meta"))
+                            .to("direct:getMetaGraph")
+                        .when(header(SPARQL_QUERY).isEqualTo("collection"))
+                            .to("direct:getCollectionGraph");
+            from("direct:getMetaGraph")
                     .setHeader(HTTP_METHOD)
                     .constant("POST")
                     .setHeader(CONTENT_TYPE)
                     .constant("application/x-www-form-urlencoded; " + "charset=utf-8")
                     .setHeader(HTTP_ACCEPT)
-                    .constant("application/n-triples")
+                    .constant(contentTypeNTriples)
                     .process(e -> e.getIn()
                                    .setBody(sparqlConstruct(
                                            getQuery("canvas-anno.rq", getV1(e), getV2(e)))))
-                    .log(LoggingLevel.INFO, LOGGER, String.valueOf(body()))
                     .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
                     .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))
                     .setHeader(CONTENT_TYPE)
-                    .constant("application/n-triples")
+                    .constant(contentTypeNTriples)
+                    .convertBodyTo(String.class)
+                    .log(LoggingLevel.INFO, LOGGER, "Getting query results as n-triples")
+                    .to("direct:toJsonLd");
+            from("direct:getCollectionGraph")
+                    .setHeader(HTTP_METHOD)
+                    .constant("POST")
+                    .setHeader(CONTENT_TYPE)
+                    .constant("application/x-www-form-urlencoded; charset=utf-8")
+                    .setHeader(HTTP_ACCEPT)
+                    .constant(contentTypeNTriples)
+                    .process(e -> e.getIn()
+                                   .setBody(sparqlConstruct(getQuery("collection.rq"))))
+                    .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
+                    .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))
+                    .setHeader(CONTENT_TYPE)
+                    .constant(contentTypeNTriples)
                     .convertBodyTo(String.class)
                     .log(LoggingLevel.INFO, LOGGER, "Getting query results as n-triples")
                     .to("direct:toJsonLd");
             from("direct:toJsonLd")
                     .routeId("JsonLd")
                     .log(LoggingLevel.INFO, LOGGER, "Serializing n-triples as Json-Ld")
+                    .choice()
+                        .when(header(SPARQL_QUERY).isEqualTo("meta"))
+                            .to("direct:serializeMeta")
+                        .when(header(SPARQL_QUERY).isEqualTo("collection"))
+                            .to("direct:serializeCollection");
+            from("direct:serializeMeta")
                     .process(e -> {
                         try {
-                            final String contentType = e.getIn()
-                                                        .getHeader(SPARQL_QUERY, String.class);
-                            if (Objects.equals(contentType, "meta")) {
-                                final String contextUri = "context.json";
-                                final String frameUri = "anno-frame.json";
-                                e.getIn()
-                                 .setBody(toJsonLd(e.getIn()
-                                                    .getBody()
-                                                    .toString(), contextUri, frameUri));
-                            }
+                            final String contextUri = "context.json";
+                            final String frameUri = "anno-frame.json";
+                            e.getIn()
+                             .setBody(toJsonLd(e.getIn()
+                                                .getBody()
+                                                .toString(), contextUri, frameUri));
                         } catch (final Exception ex) {
                             throw new RuntimeCamelException("Couldn't serialize to JsonLd", ex);
                         }
@@ -163,8 +211,29 @@ public class Dynamo {
                     .setHeader(HTTP_CHARACTER_ENCODING)
                     .constant("UTF-8")
                     .setHeader(CONTENT_TYPE)
-                    .constant("application/ld+json")
+                    .constant(contentTypeJsonLd)
                     .to("direct:buildManifest");
+            from("direct:serializeCollection")
+                    .process(e -> {
+                        try {
+                            final String contextUri = "context.json";
+                            final String frameUri = "collection-frame.json";
+                            e.getIn()
+                             .setBody(toJsonLd(e.getIn()
+                                                .getBody()
+                                                .toString(), contextUri, frameUri));
+                        } catch (final Exception ex) {
+                            throw new RuntimeCamelException("Couldn't serialize to JsonLd", ex);
+                        }
+                    })
+                    .removeHeader(HTTP_ACCEPT)
+                    .setHeader(HTTP_METHOD)
+                    .constant("GET")
+                    .setHeader(HTTP_CHARACTER_ENCODING)
+                    .constant("UTF-8")
+                    .setHeader(CONTENT_TYPE)
+                    .constant(contentTypeJsonLd)
+                    .to("direct:buildCollection");
             from("direct:buildManifest")
                     .routeId("ManifestBuilder")
                     .log(LoggingLevel.INFO, LOGGER, "Building Manifest")
@@ -172,8 +241,16 @@ public class Dynamo {
                         final ManifestBuilder builder = new ManifestBuilder(e.getIn()
                                                                              .getBody()
                                                                              .toString());
-                        e.getIn()
-                         .setBody(builder.build());
+                        e.getIn().setBody(builder.build());
+                    });
+            from("direct:buildCollection")
+                    .routeId("CollectionBuilder")
+                    .log(LoggingLevel.INFO, LOGGER, "Building Collection")
+                    .process(e -> {
+                        final CollectionBuilder builder = new CollectionBuilder(e.getIn()
+                                                                                 .getBody()
+                                                                                 .toString());
+                        e.getIn().setBody(builder.build());
                     });
         }
     }

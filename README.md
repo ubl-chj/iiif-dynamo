@@ -1,9 +1,11 @@
 ## iiif-dynamo
 
-An Apache Camel Jetty implementation that queries web annotations with SPARQL and dynamically constructs IIIF manifests.
+An Apache Camel Jetty implementation that queries web annotations with SPARQL and dynamically constructs 
+IIIF Manifests and Collections.
 
 ## Configuration
-See `application.properties`
+ * `application.properties` 
+ * `org.ubl.iiif.dynamic.webanno.Constants`
 
 ## Building
 This requires JDK9 or higher.
@@ -13,13 +15,20 @@ gradle build
 ```
 
 ## Endpoint
-The query endpoint is exposed at `http://localhost:9095/dynamo`
+The test query endpoint is exposed at `http://localhost:9095/dynamo`
 
-## Example Endpoint Type Query
+## Example Endpoint Metadata Type Query
 This example requests canvases with resources that have either metadata value `1676` or metadata value `1670`
 
 ```bash
 $ http://localhost:9095/dynamic?type=meta&v1=1676&v2=1670
+```
+
+## Example Endpoint Collection Type Query
+This example builds a collection of dynamic manifest identifiers by evaluating all possible metadata query values.
+
+```bash
+$ http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=collection
 ```
 
 ## Dependencies

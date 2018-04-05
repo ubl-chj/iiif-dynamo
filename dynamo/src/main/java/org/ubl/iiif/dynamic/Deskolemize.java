@@ -66,6 +66,10 @@ public final class Deskolemize {
         return sb.toString();
     }
 
+    /**
+     * @param input input
+     * @return boolean
+     */
     static boolean isNotEmpty(final String input) {
         final Pattern p = Pattern.compile("^<");
         final Matcher m = p.matcher(input);

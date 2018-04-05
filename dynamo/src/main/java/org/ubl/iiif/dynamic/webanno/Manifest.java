@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
 
 /**
- * TemplateBody.
+ * Manifest.
  *
  * @author christopher-johnson
  */
@@ -46,13 +46,12 @@ public class Manifest {
     private List<Sequence> sequences;
 
     /**
-     *
+     * Manifest.
      */
     public Manifest() {
     }
 
     /**
-     *
      * @param context String
      */
     public void setContext(final String context) {
@@ -60,7 +59,6 @@ public class Manifest {
     }
 
     /**
-     *
      * @param id String
      */
     public void setId(final String id) {
@@ -68,7 +66,6 @@ public class Manifest {
     }
 
     /**
-     *
      * @param type String
      */
     public void setType(final String type) {
@@ -76,7 +73,6 @@ public class Manifest {
     }
 
     /**
-     *
      * @param attribution String
      */
     public void setAttribution(final String attribution) {
@@ -84,7 +80,6 @@ public class Manifest {
     }
 
     /**
-     *
      * @param logo String
      */
     public void setLogo(final String logo) {
@@ -92,7 +87,6 @@ public class Manifest {
     }
 
     /**
-     *
      * @param sequences List
      */
     public void setSequences(final List<Sequence> sequences) {

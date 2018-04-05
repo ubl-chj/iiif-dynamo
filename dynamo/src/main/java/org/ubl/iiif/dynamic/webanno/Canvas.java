@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Map;
 
 public class Canvas {
 
@@ -31,7 +32,7 @@ public class Canvas {
     private List<Object> images;
 
     @JsonProperty("metadata")
-    private List<Object> metadata;
+    private List<Metadata> metadata;
 
     @JsonProperty("label")
     private String label;
@@ -42,12 +43,30 @@ public class Canvas {
     @JsonProperty("width")
     private int width;
 
+    @JsonProperty("sc:metadataLabels")
+    private Map<Object, Object> metadataLabels;
+
     /**
-     *
      * @return String
      */
     @JsonIgnore
     public String getLabel() {
         return this.label;
+    }
+
+    /**
+     * @return String
+     */
+    @JsonIgnore
+    public List<Metadata> getMetadata() {
+        return this.metadata;
+    }
+
+    /**
+     * @return String
+     */
+    @JsonIgnore
+    public Map<Object, Object> getMetadataLabels() {
+        return this.metadataLabels;
     }
 }

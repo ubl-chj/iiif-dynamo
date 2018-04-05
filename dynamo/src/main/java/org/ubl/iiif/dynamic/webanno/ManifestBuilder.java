@@ -19,7 +19,9 @@ import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static org.slf4j.LoggerFactory.getLogger;
+import static org.ubl.iiif.dynamic.webanno.Constants.presentationContext;
+import static org.ubl.iiif.dynamic.webanno.Constants.trellisManifestBase;
+import static org.ubl.iiif.dynamic.webanno.Constants.trellisSequenceBase;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -33,12 +35,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-
 public class ManifestBuilder {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static Logger logger = getLogger(ManifestBuilder.class);
 
     static {
         MAPPER.configure(WRITE_DATES_AS_TIMESTAMPS, false);
@@ -48,7 +47,6 @@ public class ManifestBuilder {
     private final String body;
 
     /**
-     *
      * @param body String
      */
     public ManifestBuilder(final String body) {
@@ -71,7 +69,6 @@ public class ManifestBuilder {
     }
 
     /**
-     *
      * @return List
      */
     public List<Canvas> readBody() {
@@ -88,12 +85,11 @@ public class ManifestBuilder {
     }
 
     /**
-     *
      * @param graph graph
      * @return List
      */
     public List<Sequence> getSequence(final List<Canvas> graph) {
-        final String id = "trellis:data/collection/vp/sequence/" + UUID.randomUUID();
+        final String id = trellisSequenceBase + UUID.randomUUID();
         final List<Sequence> sequences = new ArrayList<>();
         final Sequence sequence = new Sequence(id, graph);
         sequences.add(sequence);
@@ -101,22 +97,19 @@ public class ManifestBuilder {
     }
 
     /**
-     *
      * @param sequences sequences
      * @return Manifest
      */
     public Manifest getManifest(final List<Sequence> sequences) {
-        final String id = "trellis:data/collection/vp/manifest/" + UUID.randomUUID();
-        final String context = "http://iiif.io/api/presentation/2/context.json";
+        final String id = trellisManifestBase + UUID.randomUUID();
         final Manifest manifest = new Manifest();
-        manifest.setContext(context);
+        manifest.setContext(presentationContext);
         manifest.setId(id);
         manifest.setSequences(sequences);
         return manifest;
     }
 
     /**
-     *
      * @return String
      */
     public String build() {

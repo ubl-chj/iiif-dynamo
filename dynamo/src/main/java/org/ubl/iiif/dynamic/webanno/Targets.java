@@ -26,6 +26,10 @@ public class Targets {
     @JsonProperty("@graph")
     List<Canvas> graph;
 
+    /**
+     *
+     * @return List
+     */
     List<Canvas> getGraph() {
         return this.graph;
     }

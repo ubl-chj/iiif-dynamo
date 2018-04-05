@@ -26,6 +26,11 @@ import java.io.InputStream;
 
 import org.slf4j.Logger;
 
+/**
+ * FromRdf.
+ *
+ * @author christopher-johnson
+ */
 public final class FromRdf {
 
     private FromRdf() {

@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 MAINTAINER Christopher Johnson <christopher_hanna.johnson@uni-leipzig.de>
 LABEL description = "Provides a Camel Kafka File Serializer"
 
-ENV DYNAMO_VERSION 0.1.0-SNAPSHOT
+ENV DYNAMO_VERSION 0.1.1-SNAPSHOT
 ENV DYNAMO_RUNTIME /opt
 
 ENV JVM_BASE /usr/lib/jvm

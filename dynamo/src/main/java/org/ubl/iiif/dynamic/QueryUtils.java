@@ -21,10 +21,22 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * QueryUtils.
+ *
+ * @author christopher-johnson
+ */
 public final class QueryUtils {
 
-    private QueryUtils() { }
+    private QueryUtils() {
+    }
 
+    /**
+     * @param query query
+     * @param v1 v1
+     * @param v2 v2
+     * @return String
+     */
     private static String replaceNode(final String query, final String v1, final String v2) {
 
         final Pattern p = Pattern.compile("(\"\\?v1)\" \"(\\?v2)\"");
@@ -37,12 +49,16 @@ public final class QueryUtils {
         return sb.toString();
     }
 
+    /**
+     * @param group group
+     * @param value value
+     * @return String
+     */
     private static String replace(final String group, final String value) {
         return Matcher.quoteReplacement(value);
     }
 
     /**
-     *
      * @param qname String
      * @param V1 String
      * @param V2 String
@@ -51,12 +67,29 @@ public final class QueryUtils {
      */
     public static String getQuery(final String qname, final String V1, final String V2) throws IOException {
         final ClassLoader classloader = Thread.currentThread()
-                                        .getContextClassLoader();
+                                              .getContextClassLoader();
         final InputStream is = classloader.getResourceAsStream(qname);
         final String out = readFile(is);
         return replaceNode(out, V1, V2);
     }
 
+    /**
+     * @param qname String
+     * @return String
+     * @throws IOException IOException
+     */
+    public static String getQuery(final String qname) throws IOException {
+        final ClassLoader classloader = Thread.currentThread()
+                                              .getContextClassLoader();
+        final InputStream is = classloader.getResourceAsStream(qname);
+        return readFile(is);
+    }
+
+    /**
+     * @param in InputStream
+     * @return String
+     * @throws IOException
+     */
     private static String readFile(final InputStream in) throws IOException {
         final StringBuilder inobj = new StringBuilder();
         try (BufferedReader buf = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {

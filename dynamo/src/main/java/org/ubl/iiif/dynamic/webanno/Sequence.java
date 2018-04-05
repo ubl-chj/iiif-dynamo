@@ -37,7 +37,6 @@ public class Sequence {
     private List<Canvas> canvases;
 
     /**
-     *
      * @param id String
      * @param canvases List
      */
