@@ -44,9 +44,10 @@ public class Canvas {
     private int width;
 
     @JsonProperty("sc:metadataLabels")
-    private Map<Object, Object> metadataLabels;
+    private Map<Object,Object> metadataLabels;
 
     /**
+     *
      * @return String
      */
     @JsonIgnore
@@ -55,6 +56,7 @@ public class Canvas {
     }
 
     /**
+     *
      * @return String
      */
     @JsonIgnore
@@ -63,10 +65,11 @@ public class Canvas {
     }
 
     /**
+     *
      * @return String
      */
     @JsonIgnore
-    public Map<Object, Object> getMetadataLabels() {
+    public Map<Object,Object> getMetadataLabels() {
         return this.metadataLabels;
     }
 }

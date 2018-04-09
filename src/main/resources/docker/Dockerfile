@@ -1,9 +1,9 @@
 FROM ubuntu:16.04
 
 MAINTAINER Christopher Johnson <christopher_hanna.johnson@uni-leipzig.de>
-LABEL description = "Provides a Camel Kafka File Serializer"
+LABEL description = "Provides IIIF Dynamo"
 
-ENV DYNAMO_VERSION 0.1.1-SNAPSHOT
+ENV DYNAMO_VERSION 0.1.2-SNAPSHOT
 ENV DYNAMO_RUNTIME /opt
 
 ENV JVM_BASE /usr/lib/jvm
@@ -28,9 +28,10 @@ RUN mkdir ${JVM_BASE} && \
 WORKDIR ${DYNAMO_RUNTIME}
 COPY *.tar .
 RUN tar -xvf *.tar && \
-mv dynamo-${DYNAMO_VERSION} dynamo && \
-chmod +x ${DYNAMO_RUNTIME}/dynamo/bin/dynamo
+mv dynamo-${DYNAMO_VERSION} dynamo
 COPY entrypoint.sh .
+COPY dynamo /opt/dynamo/bin/dynamo
+RUN chmod +x ${DYNAMO_RUNTIME}/dynamo/bin/dynamo
 #COPY trellis.crt .
 #RUN /usr/lib/jvm/jdk-10/bin/keytool -cacerts -storepass changeit -noprompt -import -alias trellis -file trellis.crt
 RUN chmod +x entrypoint.sh

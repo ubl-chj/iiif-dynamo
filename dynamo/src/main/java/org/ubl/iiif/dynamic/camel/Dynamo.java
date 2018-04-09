@@ -206,8 +206,6 @@ public class Dynamo {
                         }
                     })
                     .removeHeader(HTTP_ACCEPT)
-                    .setHeader(HTTP_METHOD)
-                    .constant("GET")
                     .setHeader(HTTP_CHARACTER_ENCODING)
                     .constant("UTF-8")
                     .setHeader(CONTENT_TYPE)
@@ -227,8 +225,6 @@ public class Dynamo {
                         }
                     })
                     .removeHeader(HTTP_ACCEPT)
-                    .setHeader(HTTP_METHOD)
-                    .constant("GET")
                     .setHeader(HTTP_CHARACTER_ENCODING)
                     .constant("UTF-8")
                     .setHeader(CONTENT_TYPE)

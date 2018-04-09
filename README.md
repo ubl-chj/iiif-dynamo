@@ -8,10 +8,10 @@ IIIF Manifests and Collections.
  * `org.ubl.iiif.dynamic.webanno.Constants`
 
 ## Building
-This requires JDK9 or higher.
+This requires JDK10 or higher.
 To build run
 ```bash
-gradle build
+./gradlew clean build
 ```
 
 ## Endpoint

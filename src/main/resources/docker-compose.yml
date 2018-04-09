@@ -2,7 +2,7 @@ version: "3"
 
 services:
   dynamo:
-    image: trellisldp/dynamo:0.1.1
+    image: trellisldp/dynamo:0.1.2
     container_name: dynamo
     restart: always
     ports:

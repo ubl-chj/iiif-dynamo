@@ -9,24 +9,50 @@ buildscript {
 }
 
 plugins {
+    id "com.zyxist.chainsaw" version "0.3.1"
     id 'net.researchgate.release' version '2.6.0'
     id 'com.github.hierynomus.license' version '0.14.0'
     id 'io.codearte.nexus-staging' version '0.9.0'
-    id 'org.dm.bundle' version '0.10.0'
 }
 
 ext {
-    name = 'IIIF Dynamo'
-    description = 'A Camel LDP implementation'
-    vendor = 'pandorasystems'
-    homepage = 'http://www.trellisldp.org'
-    url = 'http://www.trellisldp.org/apidocs'
-    license = 'Apache 2'
-    inceptionYear = '2017'
+    /* Dependencies */
+    camelVersion = '2.20.0'
+    jacksonVersion = '2.9.5'
+    jsonldVersion = "0.11.1"
+
+    /* Testing */
+    jaxbVersion = '2.3.0'
+    javaxActivationVersion = '1.1.1'
+    junitVersion = '5.0.1'
+    junitPlatformVersion = '1.0.1'
+    jaxbVersion = '2.3.0'
+    jenaVersion = '3.5.0'
+    activationVersion = '1.1.1'
+    logbackVersion = '1.2.3'
+    apiguardianVersion = '1.0.0'
+
+    /* Transitive patched modules */
+    commonsLoggingVersion = '1.2'
+    jaxbCoreVersion = '2.2.11'
+    httpClientOsgiVersion = '4.5.3'
+    httpCoreOsgiVersion = '4.4.6'
+
+    jacocoVersion = '0.8.0'
+    checkstyleVersion = '8.8'
 }
 
-
 configure(allprojects) { project ->
+
+    ext {
+        name = 'IIIF Dynamo'
+        description = 'A Camel LDP implementation'
+        vendor = 'pandorasystems'
+        homepage = 'http://www.trellisldp.org'
+        url = 'http://www.trellisldp.org/apidocs'
+        license = 'Apache 2'
+        inceptionYear = '2017'
+    }
 
     group = 'org.ubl.iiif.dynamic'
 
@@ -35,45 +61,20 @@ configure(allprojects) { project ->
         mavenCentral()
         mavenLocal()
     }
-
-    ext {
-        /* Dependencies */
-        camelVersion = '2.20.0'
-        jsonldVersion = "0.11.1"
-
-        /* Testing */
-        jaxbVersion = '2.3.0'
-        javaxActivationVersion = '1.1.1'
-        junitVersion = '5.0.1'
-        junitPlatformVersion = '1.0.1'
-        jaxbVersion = '2.3.0'
-        jenaVersion = '3.5.0'
-        activationVersion = '1.1.1'
-        logbackVersion = '1.2.3'
-        apiguardianVersion = '1.0.0'
-
-        /* OSGi */
-        camelVersionRange = '[2.16,3)'
-        projectOsgiVersion = project.version.replaceAll("-SNAPSHOT", ".SNAPSHOT")
-        defaultOsgiImports = 'org.osgi.service.blueprint;version="[1,2)",*'
-
-        jacocoVersion = '0.8.0'
-        checkstyleVersion = '8.8'
-    }
 }
 
 subprojects {
     apply plugin: 'application'
+    apply plugin: 'com.zyxist.chainsaw'
     apply plugin: 'maven'
-    apply plugin: 'org.dm.bundle'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
     apply plugin: 'checkstyle'
     apply plugin: 'com.github.hierynomus.license'
 
-    sourceCompatibility = 1.9
-    targetCompatibility = 1.9
+    sourceCompatibility = 1.10
+    targetCompatibility = 1.10
 
     checkstyle {
         configFile = rootProject.file('buildtools/src/main/resources/checkstyle/checkstyle.xml')
@@ -83,7 +84,9 @@ subprojects {
 
     license {
         include "**/*.java"
+        //noinspection GroovyAssignabilityCheck
         header rootProject.file('buildtools/src/main/resources/license/HEADER.txt')
+        //noinspection GroovyAssignabilityCheck
         strictCheck true
         mapping {
             java = 'SLASHSTAR_STYLE'
@@ -95,13 +98,36 @@ project("dynamo") {
     mainClassName = 'org.ubl.iiif.dynamic.camel.Dynamo'
     description = 'A Camel service that assembles manifests from RDF queries'
 
+    javaModule {
+        name = 'org.ubl.iiif.dynamic'
+        hacks {
+            patches('org.apache.camel:camel-core-osgi', 'org.apache.camel:camel-core.')
+            patches('com.sun.xml.bind:jaxb-impl', 'javax.xml.bind:jaxb-api')
+            patches('com.sun.xml.bind:jaxb-core', 'javax.xml.bind:jaxb-api')
+            patches('org.apache.httpcomponents:httpcore', 'org.apache.httpcomponents:httpcore-osgi')
+            patches('org.apache.httpcomponents:httpcore-nio', 'org.apache.httpcomponents:httpcore-osgi')
+            patches('org.apache.httpcomponents:httpclient-osgi', 'org.apache.httpcomponents:httpclient')
+            patches('org.slf4j:jcl.over.slf4j', 'commons-logging:commons-logging')
+        }
+    }
+
     dependencies {
-        compile group: 'javax.activation', name: 'activation', version: javaxActivationVersion
-        compile group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbVersion
-        compile group: 'org.apache.camel', name: 'camel-jetty9', version: camelVersion
-        compile group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
-        compile group: 'com.github.jsonld-java', name: 'jsonld-java', version: jsonldVersion
-        compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+        patch "org.apache.camel:camel-core-osgi:${camelVersion}"
+        patch "com.sun.xml.bind:jaxb-core:${jaxbCoreVersion}"
+        patch "com.sun.xml.bind:jaxb-impl:${jaxbCoreVersion}"
+        patch "org.apache.httpcomponents:httpclient-osgi:$httpClientOsgiVersion"
+        patch "org.apache.httpcomponents:httpcore:${httpCoreOsgiVersion}"
+        patch "org.apache.httpcomponents:httpcore-nio:${httpCoreOsgiVersion}"
+        patch "commons-logging:commons-logging:${commonsLoggingVersion}"
+
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
+        implementation group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbVersion
+        implementation group: 'org.apache.camel', name: 'camel-jetty9', version: camelVersion
+        implementation group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
+        implementation group: 'org.apache.httpcomponents', name: 'httpclient-cache', version: httpClientOsgiVersion
+        implementation group: 'com.github.jsonld-java', name: 'jsonld-java', version: jsonldVersion
+        implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
         testImplementation group: 'org.apiguardian', name: 'apiguardian-api', version: apiguardianVersion
         testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: junitPlatformVersion
         testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
@@ -109,6 +135,18 @@ project("dynamo") {
         testImplementation group: 'org.apache.camel', name: 'camel-jetty9', version: camelVersion
         testImplementation group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
         testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
-        testImplementation group: 'org.apache.camel', name: 'camel-test-blueprint', version: camelVersion
+    }
+}
+
+configure(rootProject) {
+    license {
+        include "**/*.java"
+        //noinspection GroovyAssignabilityCheck
+        header rootProject.file('buildtools/src/main/resources/license/HEADER.txt')
+        //noinspection GroovyAssignabilityCheck
+        strictCheck true
+        mapping {
+            java = 'SLASHSTAR_STYLE'
+        }
     }
 }

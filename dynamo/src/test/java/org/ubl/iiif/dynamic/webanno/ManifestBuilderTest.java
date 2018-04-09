@@ -14,11 +14,10 @@
 
 package org.ubl.iiif.dynamic.webanno;
 
-import static java.nio.file.Paths.get;
-
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,17 +25,18 @@ import org.junit.jupiter.api.Test;
 
 public class ManifestBuilderTest {
 
-    private String path = get(".").toAbsolutePath()
-                                  .normalize()
-                                  .getParent()
-                                  .toString();
-    private String sourceFile = path + "/resource-dataset/src/test/resources/proof-of-concept.json";
+    private InputStream sourceFile = ManifestBuilderTest.class.getResourceAsStream("/unordered-targets.json");
+
+    private static String read(final InputStream input) throws IOException {
+        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
+            return buffer.lines().collect(Collectors.joining("\n"));
+        }
+    }
 
     @Test
     void orderCanvasesTest() {
         try {
-            final String json = Files.lines(Paths.get(sourceFile))
-                               .collect(Collectors.joining());
+            final String json = read(sourceFile);
             final ManifestBuilder builder = new ManifestBuilder(json);
             final List<Canvas> graph = builder.readBody();
             System.out.println(graph);
@@ -48,8 +48,7 @@ public class ManifestBuilderTest {
     @Test
     void assembleManifestTest() {
         try {
-            final String json = Files.lines(Paths.get(sourceFile))
-                               .collect(Collectors.joining());
+            final String json = read(sourceFile);
             final ManifestBuilder builder = new ManifestBuilder(json);
             final List<Canvas> graph = builder.readBody();
             final List<Sequence> sequences = builder.getSequence(graph);
@@ -63,8 +62,7 @@ public class ManifestBuilderTest {
     @Test
     void buildManifestTest() {
         try {
-            final String json = Files.lines(Paths.get(sourceFile))
-                               .collect(Collectors.joining());
+            final String json = read(sourceFile);
             final ManifestBuilder builder = new ManifestBuilder(json);
             final String out = builder.build();
             System.out.println(out);
