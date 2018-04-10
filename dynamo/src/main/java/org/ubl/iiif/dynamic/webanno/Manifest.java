@@ -45,6 +45,9 @@ public class Manifest {
     @JsonProperty("sequences")
     private List<Sequence> sequences;
 
+    @JsonProperty("service")
+    private Service service;
+
     /**
      * Manifest.
      */
@@ -84,6 +87,13 @@ public class Manifest {
      */
     public void setLogo(final String logo) {
         this.logo = logo;
+    }
+
+    /**
+     * @param service String
+     */
+    public void setService(final Service service) {
+        this.service = service;
     }
 
     /**

@@ -2,11 +2,19 @@ version: "3"
 
 services:
   dynamo:
-    image: trellisldp/dynamo:0.1.2
+    image: trellisldp/dynamo:0.2.0
     container_name: dynamo
     restart: always
     ports:
       - "9095:9095"
+    networks:
+      - 110_default
+  dynamo-search:
+    image: trellisldp/dynamo-search:0.2.0
+    container_name: dynamo-search
+    restart: always
+    ports:
+      - "9097:9097"
     networks:
       - 110_default
 

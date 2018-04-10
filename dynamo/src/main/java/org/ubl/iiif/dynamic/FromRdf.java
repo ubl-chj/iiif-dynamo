@@ -66,7 +66,7 @@ public final class FromRdf {
             final InputStream fs = classloader.getResourceAsStream(frameUri);
             frame = JsonUtils.fromInputStream(fs);
             frameobj = JsonLdProcessor.frame(compactobj, frame, opts);
-            //System.out.println(JsonUtils.toPrettyString(frameobj));
+            System.out.println(JsonUtils.toPrettyString(compactobj));
             //Files.write(Paths.get("output.json"), JsonUtils.toPrettyString(compactobj).getBytes
             // ());
             return JsonUtils.toPrettyString(frameobj);

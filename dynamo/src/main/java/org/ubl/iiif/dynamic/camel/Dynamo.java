@@ -101,6 +101,7 @@ public class Dynamo {
 
         private static final String contentTypeNTriples = "application/n-triples";
         private static final String contentTypeJsonLd = "application/ld+json";
+        private static final String contentTypeHTMLForm = "application/x-www-form-urlencoded";
         private static final String HTTP_ACCEPT = "Accept";
         private static final String SPARQL_QUERY = "type";
         private static final String V1_SET = "v1";
@@ -155,7 +156,7 @@ public class Dynamo {
                     .setHeader(HTTP_METHOD)
                     .constant("POST")
                     .setHeader(CONTENT_TYPE)
-                    .constant("application/x-www-form-urlencoded; " + "charset=utf-8")
+                    .constant( contentTypeHTMLForm + "; charset=utf-8")
                     .setHeader(HTTP_ACCEPT)
                     .constant(contentTypeNTriples)
                     .process(e -> e.getIn()
@@ -202,7 +203,7 @@ public class Dynamo {
                                                 .getBody()
                                                 .toString(), contextUri, frameUri));
                         } catch (final Exception ex) {
-                            throw new RuntimeCamelException("Couldn't serialize to JsonLd", ex);
+                            throw new RuntimeCamelException("Empty SPARQL Result Set", ex);
                         }
                     })
                     .removeHeader(HTTP_ACCEPT)

@@ -24,6 +24,9 @@ public final class Constants {
     static String trellisManifestBase = "trellis:data/collection/vp/manifest/";
     static String trellisSequenceBase = "trellis:data/collection/vp/sequence/";
     static String scManifestType = "sc:Manifest";
+    static String searchService = "http://iiif.io/api/search/0/search";
+    static String searchServiceId = "http://localhost:9097/search";
+    static String searchServiceContext = "http://iiif.io/api/search/0/context.json";
 
     private Constants() {
     }

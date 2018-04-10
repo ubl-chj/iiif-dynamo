@@ -20,6 +20,9 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.ubl.iiif.dynamic.webanno.Constants.presentationContext;
+import static org.ubl.iiif.dynamic.webanno.Constants.searchService;
+import static org.ubl.iiif.dynamic.webanno.Constants.searchServiceContext;
+import static org.ubl.iiif.dynamic.webanno.Constants.searchServiceId;
 import static org.ubl.iiif.dynamic.webanno.Constants.trellisManifestBase;
 import static org.ubl.iiif.dynamic.webanno.Constants.trellisSequenceBase;
 
@@ -106,6 +109,11 @@ public class ManifestBuilder {
         manifest.setContext(presentationContext);
         manifest.setId(id);
         manifest.setSequences(sequences);
+        final Service service = new Service();
+        service.setContext(searchServiceContext);
+        service.setId(searchServiceId);
+        service.setProfile(searchService);
+        manifest.setService(service);
         return manifest;
     }
 

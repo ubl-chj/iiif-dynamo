@@ -50,6 +50,23 @@ public final class QueryUtils {
     }
 
     /**
+     * @param query query
+     * @param v1 v1
+     * @return String
+     */
+    private static String replaceNode(final String query, final String v1) {
+
+        final Pattern p = Pattern.compile("(\"\\?v1)\"");
+        final Matcher m = p.matcher(query);
+        final StringBuffer sb = new StringBuffer(query.length());
+        while (m.find()) {
+            m.appendReplacement(sb, "\"" + replace(m.group(1), v1) + "\"");
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
+    /**
      * @param group group
      * @param value value
      * @return String
@@ -71,6 +88,20 @@ public final class QueryUtils {
         final InputStream is = classloader.getResourceAsStream(qname);
         final String out = readFile(is);
         return replaceNode(out, V1, V2);
+    }
+
+    /**
+     * @param qname String
+     * @param V1 String
+     * @return String
+     * @throws IOException IOException
+     */
+    public static String getQuery(final String qname, final String V1) throws IOException {
+        final ClassLoader classloader = Thread.currentThread()
+                                              .getContextClassLoader();
+        final InputStream is = classloader.getResourceAsStream(qname);
+        final String out = readFile(is);
+        return replaceNode(out, V1);
     }
 
     /**

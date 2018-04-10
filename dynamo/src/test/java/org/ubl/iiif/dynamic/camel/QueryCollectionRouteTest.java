@@ -25,7 +25,6 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.builder.RouteBuilder;
@@ -43,8 +42,6 @@ public final class QueryCollectionRouteTest {
 
     private static final String HTTP_ACCEPT = "Accept";
     private static final String SPARQL_QUERY = "type";
-    private static final String V1_SET = "v1";
-    private static final String V2_SET = "v2";
 
     private QueryCollectionRouteTest() {
     }
@@ -145,17 +142,4 @@ public final class QueryCollectionRouteTest {
             throw new UncheckedIOException(ex);
         }
     }
-
-    private static String getV1(final Exchange e) {
-        final Object optHdr = e.getIn()
-                               .getHeader(V1_SET);
-        return (String) optHdr;
-    }
-
-    private static String getV2(final Exchange e) {
-        final Object optHdr = e.getIn()
-                               .getHeader(V2_SET);
-        return (String) optHdr;
-    }
-
 }
