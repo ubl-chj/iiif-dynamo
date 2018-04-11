@@ -74,7 +74,7 @@ public final class QueryAnnotationListRouteTest {
                         .constant("application/n-triples")
                         .process(e -> e.getIn()
                                        .setBody(sparqlSelect(
-                                               QueryUtils.getQuery("searchanno.rq",  getV1(e)))))
+                                               QueryUtils.getQuery("searchanno.sparql",  getV1(e)))))
                         .log(LoggingLevel.INFO, LOGGER, String.valueOf(body()))
                         .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
                         .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))

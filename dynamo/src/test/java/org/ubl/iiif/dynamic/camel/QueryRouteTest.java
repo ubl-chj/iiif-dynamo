@@ -80,7 +80,7 @@ public final class QueryRouteTest {
                         .constant("application/n-triples")
                         .process(e -> e.getIn()
                                        .setBody(sparqlSelect(
-                                               QueryUtils.getQuery("canvas-anno.rq", getV1(e), getV2(e)))))
+                                               QueryUtils.getQuery("canvas-anno.sparql", getV1(e), getV2(e)))))
                         .log(LoggingLevel.INFO, LOGGER, String.valueOf(body()))
                         .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
                         .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))

@@ -161,7 +161,7 @@ public class Dynamo {
                     .constant(contentTypeNTriples)
                     .process(e -> e.getIn()
                                    .setBody(sparqlConstruct(
-                                           getQuery("canvas-anno.rq", getV1(e), getV2(e)))))
+                                           getQuery("canvas-anno.sparql", getV1(e), getV2(e)))))
                     .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
                     .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))
                     .setHeader(CONTENT_TYPE)
@@ -177,7 +177,7 @@ public class Dynamo {
                     .setHeader(HTTP_ACCEPT)
                     .constant(contentTypeNTriples)
                     .process(e -> e.getIn()
-                                   .setBody(sparqlConstruct(getQuery("collection.rq"))))
+                                   .setBody(sparqlConstruct(getQuery("collection.sparql"))))
                     .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
                     .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))
                     .setHeader(CONTENT_TYPE)

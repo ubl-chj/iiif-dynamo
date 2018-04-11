@@ -77,7 +77,7 @@ public final class QueryCollectionRouteTest {
                         .constant("application/n-triples")
                         .process(e -> e.getIn()
                                        .setBody(sparqlSelect(
-                                               QueryUtils.getQuery("collection.rq"))))
+                                               QueryUtils.getQuery("collection.sparql"))))
                         .log(LoggingLevel.INFO, LOGGER, String.valueOf(body()))
                         .to("http4:{{triplestore.baseUrl}}?useSystemProperties=true&bridgeEndpoint=true")
                         .filter(header(HTTP_RESPONSE_CODE).isEqualTo(200))
