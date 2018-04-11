@@ -15,65 +15,23 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "svcs": "http://rdfs.org/sioc/services#",
     "as": "http://www.w3.org/ns/activitystreams#",
-    "service": {
-      "@type": "@id",
-      "@id": "svcs:has_service"
-    },
-    "profile": {
-      "@type": "@id",
-      "@id": "doap:implements"
-    },
-    "manifests": {
-      "@type": "@id",
-      "@id": "sc:hasManifests",
-      "@container": "@list"
-    },
-    "metadata": {
-      "@type": "@id",
-      "@id": "sc:metadataLabels",
-      "@container": "@list"
-    },
-    "sequences": {
-      "@type": "@id",
-      "@id": "sc:hasSequences",
-      "@container": "@list"
-    },
-    "canvases": {
-      "@type": "@id",
-      "@id": "sc:hasCanvases",
-      "@container": "@list"
-    },
+    "search": "http://iiif.io/api/search/0#",
+
+    "ignored": {"@id": "search:ignored", "@container": "@set"},
+    "match": {"@id": "search:match"},
+    "before": {"@id": "search:before"},
+    "after": {"@id": "search:after"},
+    "count": {"@id": "search:count"},
+
+    "hits": {"@id": "search:hasHitList", "@container": "@list", "@type": "@id"},
+    "terms": {"@id": "search:hasTermList", "@container": "@list", "@type": "@id"},
+    "annotations": {"@id": "search:refines", "@container": "@set", "@type": "@id"},
+    "selectors": {"@id": "search:hasSelector", "@container": "@set", "@type":"@id"},
+
     "resources": {
       "@type": "@id",
       "@id": "sc:hasAnnotations",
       "@container": "@set"
-    },
-    "images": {
-      "@type": "@id",
-      "@id": "sc:hasImageAnnotations",
-      "@container": "@set"
-    },
-    "otherContent": {
-      "@type": "@id",
-      "@id": "sc:hasLists",
-      "@container": "@list"
-    },
-    "height": {
-      "@id": "exif:height"
-    },
-    "width": {
-      "@id": "exif:width"
-    },
-    "viewingDirection": {
-      "@id": "sc:viewingDirection",
-      "@type": "@vocab"
-    },
-    "viewingHint": {
-      "@id": "sc:viewingHint",
-      "@type": "@vocab"
-    },
-    "paged": {
-      "@id": "sc:pagedHint"
     },
     "motivation": {
       "@type": "@id",
@@ -89,9 +47,6 @@
     },
     "chars": {
       "@id": "cnt:chars"
-    },
-    "format": {
-      "@id": "dc:format"
     },
     "value": {
       "@id": "rdf:value"

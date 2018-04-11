@@ -14,11 +14,6 @@
 
 package org.ubl.iiif.dynamic.webanno;
 
-import static com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE;
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
-import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.ubl.iiif.dynamic.webanno.Constants.presentationContext;
 import static org.ubl.iiif.dynamic.webanno.Constants.searchService;
 import static org.ubl.iiif.dynamic.webanno.Constants.searchServiceContext;
@@ -26,10 +21,7 @@ import static org.ubl.iiif.dynamic.webanno.Constants.searchServiceId;
 import static org.ubl.iiif.dynamic.webanno.Constants.trellisManifestBase;
 import static org.ubl.iiif.dynamic.webanno.Constants.trellisSequenceBase;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,14 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class ManifestBuilder {
-
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    static {
-        MAPPER.configure(WRITE_DATES_AS_TIMESTAMPS, false);
-        MAPPER.configure(INDENT_OUTPUT, true);
-    }
+public class ManifestBuilder extends AbstractSerializer {
 
     private final String body;
 
@@ -54,21 +39,6 @@ public class ManifestBuilder {
      */
     public ManifestBuilder(final String body) {
         this.body = body;
-    }
-
-    /**
-     * Serialize the Manifest.
-     *
-     * @param manifest manifest
-     * @return the Manifest as a JSON string
-     */
-    public static Optional<String> serialize(final Object manifest) {
-        try {
-            return of(MAPPER.writer(PrettyPrinter.instance)
-                            .writeValueAsString(manifest));
-        } catch (final JsonProcessingException ex) {
-            return empty();
-        }
     }
 
     /**
@@ -126,14 +96,5 @@ public class ManifestBuilder {
         final Manifest manifest = getManifest(sequences);
         final Optional<String> json = serialize(manifest);
         return json.orElse(null);
-    }
-
-    private static class PrettyPrinter extends DefaultPrettyPrinter {
-
-        public static final PrettyPrinter instance = new PrettyPrinter();
-
-        public PrettyPrinter() {
-            _arrayIndenter = SYSTEM_LINEFEED_INSTANCE;
-        }
     }
 }

@@ -10,8 +10,9 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX doc: <http://iiif.io/api/text#>
 PREFIX oa: <http://www.w3.org/ns/oa#>
 PREFIX cnt: <http://www.w3.org/2011/content#>
-CONSTRUCT {<http://localhost:9097/search/> rdf:type sc:AnnotationList .
-<http://localhost:9097/search/> sc:hasAnnotations ?tagAnno .
+PREFIX host: <http://localhost:9097/search/>
+CONSTRUCT {?subj rdf:type sc:AnnotationList .
+?subj sc:hasAnnotations ?tagAnno .
 ?tagAnno rdf:type oa:Annotation .
 ?tagAnno oa:hasTarget ?subTarget .
 ?tagAnno oa:motivatedBy oa:tagging .
@@ -21,7 +22,7 @@ CONSTRUCT {<http://localhost:9097/search/> rdf:type sc:AnnotationList .
 }
 
 WHERE {
-values ?chars { "?v1"}
+values (?subj ?chars) { (host: "?v1")}
 ?tagAnno oa:hasTarget ?tagTarget .
 BIND (URI(CONCAT(STR(?tagTarget), "#xywh=3000,3000,3000,3000")) as ?subTarget) .
 ?tagAnno oa:hasBody ?body .

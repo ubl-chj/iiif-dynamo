@@ -14,21 +14,13 @@
 
 package org.ubl.iiif.dynamic.webanno;
 
-import static com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE;
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
-import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.ubl.iiif.dynamic.webanno.Constants.dynamoBase;
 import static org.ubl.iiif.dynamic.webanno.Constants.presentationContext;
 import static org.ubl.iiif.dynamic.webanno.Constants.scManifestType;
 import static org.ubl.iiif.dynamic.webanno.Constants.trellisCollectionBase;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -45,14 +37,7 @@ import java.util.stream.Collectors;
  *
  * @author christopher-johnson
  */
-public class CollectionBuilder {
-
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    static {
-        MAPPER.configure(WRITE_DATES_AS_TIMESTAMPS, false);
-        MAPPER.configure(INDENT_OUTPUT, true);
-    }
+public class CollectionBuilder extends AbstractSerializer {
 
     private final String body;
 
@@ -61,20 +46,6 @@ public class CollectionBuilder {
      */
     public CollectionBuilder(final String body) {
         this.body = body;
-    }
-
-    /**
-     * Serialize the Collection.
-     *
-     * @param collection manifest
-     * @return the Collection as a JSON string
-     */
-    public static Optional<String> serialize(final Object collection) {
-        try {
-            return of(MAPPER.writer(PrettyPrinter.instance).writeValueAsString(collection));
-        } catch (final JsonProcessingException ex) {
-            return empty();
-        }
     }
 
     /**
@@ -143,14 +114,5 @@ public class CollectionBuilder {
         final Collection collection = getCollection(collectionNodes);
         final Optional<String> json = serialize(collection);
         return json.orElse(null);
-    }
-
-    private static class PrettyPrinter extends DefaultPrettyPrinter {
-
-        public static final PrettyPrinter instance = new PrettyPrinter();
-
-        public PrettyPrinter() {
-            _arrayIndenter = SYSTEM_LINEFEED_INSTANCE;
-        }
     }
 }

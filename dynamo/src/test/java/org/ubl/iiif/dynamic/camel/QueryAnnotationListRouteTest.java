@@ -19,9 +19,11 @@ import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_CHARACTER_ENCODING;
 import static org.apache.camel.Exchange.HTTP_METHOD;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
+import static org.ubl.iiif.dynamic.webanno.AbstractSerializer.serialize;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Optional;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
@@ -34,12 +36,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ubl.iiif.dynamic.FromRdf;
 import org.ubl.iiif.dynamic.QueryUtils;
+import org.ubl.iiif.dynamic.webanno.AnnotationList;
+import org.ubl.iiif.dynamic.webanno.AnnotationListBuilder;
 
 public final class QueryAnnotationListRouteTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QueryCollectionRouteTest.class);
 
     private static final String HTTP_ACCEPT = "Accept";
+    private static final String EMPTY = "empty";
     private static final String V1_SET = "q";
 
     private QueryAnnotationListRouteTest() {
@@ -87,24 +92,41 @@ public final class QueryAnnotationListRouteTest {
                         .routeId("JsonLd")
                         .log(LoggingLevel.INFO, LOGGER, "Marshalling RDF to Json-Ld")
                         .process(e -> {
-                            try {
-                                    final String contextUri = "context.json";
-                                    final String frameUri = "searchanno-frame.json";
-                                    e.getIn()
-                                     .setBody(FromRdf.toJsonLd(e.getIn()
-                                                                .getBody()
-                                                                .toString(), contextUri, frameUri));
-                            } catch (final Exception ex) {
-                                throw new RuntimeCamelException("Empty SPARQL Result Set", ex);
+                            String body = e.getIn().getBody().toString();
+                            if ( body != null && !body.isEmpty()) {
+                                final String contextUri = "context.json";
+                                final String frameUri = "searchanno-frame.json";
+                                e.getIn().setBody(FromRdf.toJsonLd(e.getIn().getBody().toString(), contextUri, frameUri));
+                            } else {
+                                e.getIn().setHeader(CONTENT_TYPE, EMPTY);
                             }
                         })
                         .removeHeader(HTTP_ACCEPT)
-                        .setHeader(HTTP_METHOD)
-                        .constant("GET")
+                        .choice()
+                        .when(header(CONTENT_TYPE).isEqualTo(EMPTY))
+                            .to("direct:buildEmptyList")
+                        .otherwise()
+                        .to("direct:buildAnnotationList");
+                from("direct:buildEmptyList")
+                        .routeId("EmptyListBuilder")
+                        .process(e -> {
+                            final AnnotationList emptyList = new AnnotationList();
+                            e.getIn().setBody(serialize(emptyList).orElse(""));
+                        });
+                from("direct:buildAnnotationList")
+                        .routeId("AnnotationListBuilder")
                         .setHeader(HTTP_CHARACTER_ENCODING)
                         .constant("UTF-8")
                         .setHeader(CONTENT_TYPE)
-                        .constant("application/ld+json");
+                        .constant("application/ld+json")
+                        .log(LoggingLevel.INFO, LOGGER, "Building Collection")
+                        .process(e -> {
+                            final AnnotationListBuilder builder = new AnnotationListBuilder(e.getIn()
+                                    .getBody()
+                                    .toString());
+                            e.getIn()
+                                    .setBody(builder.build());
+                        });
             }
         });
 
