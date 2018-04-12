@@ -1,0 +1,9 @@
+apply plugin: 'com.zyxist.chainsaw'
+
+javaModule {
+    name = 'org.ubl.scb.vocabulary'
+}
+
+dependencies {
+    implementation group: 'org.apache.commons', name: 'commons-rdf-api', version: commonsRdfVersion
+}

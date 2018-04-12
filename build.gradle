@@ -18,6 +18,7 @@ plugins {
 ext {
     /* Dependencies */
     camelVersion = '2.20.0'
+    commonsRdfVersion = '0.5.0'
     jacksonVersion = '2.9.5'
     jsonldVersion = "0.11.1"
 
@@ -54,7 +55,7 @@ configure(allprojects) { project ->
         inceptionYear = '2017'
     }
 
-    group = 'org.ubl.iiif.dynamic'
+    group = 'de.ubleipzig.iiif.dynamic'
 
     repositories {
         jcenter()
@@ -64,7 +65,6 @@ configure(allprojects) { project ->
 }
 
 subprojects {
-    apply plugin: 'application'
     apply plugin: 'com.zyxist.chainsaw'
     apply plugin: 'maven'
     apply plugin: 'java-library'
@@ -91,51 +91,6 @@ subprojects {
         mapping {
             java = 'SLASHSTAR_STYLE'
         }
-    }
-}
-
-project("dynamo") {
-    mainClassName = 'org.ubl.iiif.dynamic.camel.Dynamo'
-    description = 'A Camel service that assembles manifests from RDF queries'
-
-    javaModule {
-        name = 'org.ubl.iiif.dynamic'
-        hacks {
-            patches('org.apache.camel:camel-core-osgi', 'org.apache.camel:camel-core.')
-            patches('com.sun.xml.bind:jaxb-impl', 'javax.xml.bind:jaxb-api')
-            patches('com.sun.xml.bind:jaxb-core', 'javax.xml.bind:jaxb-api')
-            patches('org.apache.httpcomponents:httpcore', 'org.apache.httpcomponents:httpcore-osgi')
-            patches('org.apache.httpcomponents:httpcore-nio', 'org.apache.httpcomponents:httpcore-osgi')
-            patches('org.apache.httpcomponents:httpclient-osgi', 'org.apache.httpcomponents:httpclient')
-            patches('org.slf4j:jcl.over.slf4j', 'commons-logging:commons-logging')
-        }
-    }
-
-    dependencies {
-        patch "org.apache.camel:camel-core-osgi:${camelVersion}"
-        patch "com.sun.xml.bind:jaxb-core:${jaxbCoreVersion}"
-        patch "com.sun.xml.bind:jaxb-impl:${jaxbCoreVersion}"
-        patch "org.apache.httpcomponents:httpclient-osgi:$httpClientOsgiVersion"
-        patch "org.apache.httpcomponents:httpcore:${httpCoreOsgiVersion}"
-        patch "org.apache.httpcomponents:httpcore-nio:${httpCoreOsgiVersion}"
-        patch "commons-logging:commons-logging:${commonsLoggingVersion}"
-
-        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
-        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
-        implementation group: 'javax.activation', name: 'javax.activation-api', version: activationApiVersion
-        implementation group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbVersion
-        implementation group: 'org.apache.camel', name: 'camel-jetty9', version: camelVersion
-        implementation group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
-        implementation group: 'org.apache.httpcomponents', name: 'httpclient-cache', version: httpClientOsgiVersion
-        implementation group: 'com.github.jsonld-java', name: 'jsonld-java', version: jsonldVersion
-        implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
-        testImplementation group: 'org.apiguardian', name: 'apiguardian-api', version: apiguardianVersion
-        testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: junitPlatformVersion
-        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
-        testImplementation group: 'org.apache.camel', name: 'camel-test', version: camelVersion
-        testImplementation group: 'org.apache.camel', name: 'camel-jetty9', version: camelVersion
-        testImplementation group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
-        testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
     }
 }
 
