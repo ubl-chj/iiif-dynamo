@@ -5,7 +5,7 @@
             <pattern>%p %d{HH:mm:ss.SSS} \(%c{0}\) %m%n</pattern>
         </encoder>
     </appender>
-    <logger name="org.ubl.iiif" additivity="false" level="DEBUG">
+    <logger name="de.ubleipzig.iiif" additivity="false" level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </logger>
     <root additivity="false" level="INFO">

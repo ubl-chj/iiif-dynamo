@@ -14,9 +14,9 @@
 
 package de.ubleipzig.iiif.dynamic.camel;
 
-import static de.ubleipzig.iiif.dynamic.FromRdf.toJsonLd;
+import static de.ubleipzig.iiif.dynamic.JsonLdProcessorUtils.toJsonLd;
 import static de.ubleipzig.iiif.dynamic.QueryUtils.getQuery;
-import static de.ubleipzig.iiif.dynamic.webanno.AbstractSerializer.serialize;
+import static de.ubleipzig.webanno.AbstractSerializer.serialize;
 import static java.net.URLEncoder.encode;
 import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_CHARACTER_ENCODING;
@@ -26,9 +26,9 @@ import static org.apache.camel.LoggingLevel.INFO;
 
 import com.github.jsonldjava.core.JsonLdError;
 
-import de.ubleipzig.iiif.dynamic.webanno.CollectionBuilder;
-import de.ubleipzig.iiif.dynamic.webanno.ManifestBuilder;
-import de.ubleipzig.iiif.dynamic.webanno.templates.AnnotationList;
+import de.ubleipzig.webanno.CollectionBuilder;
+import de.ubleipzig.webanno.ManifestBuilder;
+import de.ubleipzig.webanno.templates.AnnotationList;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

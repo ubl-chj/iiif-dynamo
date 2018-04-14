@@ -1,4 +1,5 @@
 rootProject.name = 'iiif-dynamo'
 include 'dynamo'
 include 'vocabulary'
+include 'web-anno'
 

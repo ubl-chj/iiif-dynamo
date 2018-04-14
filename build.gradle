@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.1'
     }
 }
 
@@ -25,8 +26,7 @@ ext {
     /* Testing */
     jaxbVersion = '2.3.0'
     activationApiVersion = '1.2.0'
-    junitVersion = '5.0.1'
-    junitPlatformVersion = '1.0.1'
+    junitVersion = '5.1.1'
     jaxbVersion = '2.3.0'
     jenaVersion = '3.5.0'
     activationVersion = '1.1.1'
@@ -72,9 +72,24 @@ subprojects {
     apply plugin: 'signing'
     apply plugin: 'checkstyle'
     apply plugin: 'com.github.hierynomus.license'
+    apply plugin: 'org.junit.platform.gradle.plugin'
+
 
     sourceCompatibility = 1.10
     targetCompatibility = 1.10
+
+    dependencies {
+        testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    }
+
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs.add("-Xlint:unchecked")
+            options.compilerArgs.add("-Xlint:deprecation")
+            options.compilerArgs.addAll(["--add-modules", "java.xml.bind", "--add-modules", "java.naming"])
+        }
+    }
 
     checkstyle {
         configFile = rootProject.file('buildtools/src/main/resources/checkstyle/checkstyle.xml')

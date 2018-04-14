@@ -1,0 +1,22 @@
+language: java
+sudo: required
+dist: trusty
+group: edge
+
+matrix:
+  fast_finish: true
+
+install: true
+
+script:
+- . ./buildtools/src/install/install-jdk-10.sh
+- . ./buildtools/src/install/install-jpms.sh
+
+branches:
+  only:
+    - master
+    - jpms
+
+env:
+  global:
+    - CODECOV_TOKEN=aebd5e75-ee4d-4ad9-aa21-0abffe315df2

@@ -11,11 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module de.ubleipzig.iiif.dynamic {
-    exports de.ubleipzig.iiif.dynamic;
-    requires camel.core;
-    requires java.naming;
-    requires jsonld.java;
-    requires slf4j.api;
-    requires de.ubleipzig.webanno;
+module de.ubleipzig.webanno {
+    requires com.fasterxml.jackson.core;
+    requires jackson.annotations;
+    requires de.ubleipzig.scb.vocabulary;
+    requires com.fasterxml.jackson.databind;
+    exports de.ubleipzig.webanno;
+    exports de.ubleipzig.webanno.templates;
+    opens de.ubleipzig.webanno.templates to com.fasterxml.jackson.databind;
 }

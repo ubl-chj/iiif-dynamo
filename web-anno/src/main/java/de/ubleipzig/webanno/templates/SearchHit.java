@@ -11,11 +11,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module de.ubleipzig.iiif.dynamic {
-    exports de.ubleipzig.iiif.dynamic;
-    requires camel.core;
-    requires java.naming;
-    requires jsonld.java;
-    requires slf4j.api;
-    requires de.ubleipzig.webanno;
+package de.ubleipzig.webanno.templates;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
+public class SearchHit {
+    @JsonProperty("@type")
+    private String type = "search:Hit";
+
+    @JsonProperty("annotations")
+    private List<String> annoIds;
+
+    /**
+     * @param annoIds List
+     */
+    public void setAnnotations(final List<String> annoIds) {
+        this.annoIds = annoIds;
+    }
 }

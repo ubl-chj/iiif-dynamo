@@ -1,17 +1,19 @@
 ## iiif-dynamo
 
+[![Build Status](https://travis-ci.org/ub-leipzig/iiif-dynamo.png?branch=master)](https://travis-ci.org/ub-leipzig/iiif-dynamo)
+
 An Apache Camel Jetty implementation that queries web annotations with SPARQL and dynamically constructs 
 IIIF Manifests and Collections.
 
 ## Configuration
  * `application.properties` 
- * `org.ubl.iiif.dynamic.webanno.Constants`
+ * `de.ubleipzig.webanno.Constants`
 
 ## Building
 This requires JDK10 or higher.
 To build run
 ```bash
-./gradlew clean build
+./buildtools/src/install/install-jpms.sh
 ```
 
 ## Endpoint

@@ -17,7 +17,22 @@ services:
       - "9097:9097"
     networks:
       - 18_default
+  redis:
+    image: trellisldp/redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - 18_default
+    volumes:
+      - redis-data-volume:/data
 
 networks:
   18_default:
     external: true
+
+volumes:
+  redis-data-volume:
+    driver_opts:
+      type: none
+      device: /mnt/redis-data
+      o: bind

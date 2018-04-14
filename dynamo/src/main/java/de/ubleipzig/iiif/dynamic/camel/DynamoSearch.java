@@ -14,7 +14,7 @@
 
 package de.ubleipzig.iiif.dynamic.camel;
 
-import static de.ubleipzig.iiif.dynamic.webanno.AbstractSerializer.serialize;
+import static de.ubleipzig.webanno.AbstractSerializer.serialize;
 import static java.net.URLEncoder.encode;
 import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_CHARACTER_ENCODING;
@@ -22,10 +22,10 @@ import static org.apache.camel.Exchange.HTTP_METHOD;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
 import static org.apache.camel.LoggingLevel.INFO;
 
-import de.ubleipzig.iiif.dynamic.FromRdf;
+import de.ubleipzig.iiif.dynamic.JsonLdProcessorUtils;
 import de.ubleipzig.iiif.dynamic.QueryUtils;
-import de.ubleipzig.iiif.dynamic.webanno.AnnotationListBuilder;
-import de.ubleipzig.iiif.dynamic.webanno.templates.AnnotationList;
+import de.ubleipzig.webanno.AnnotationListBuilder;
+import de.ubleipzig.webanno.templates.AnnotationList;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -151,7 +151,8 @@ public class DynamoSearch {
                         if ( body != null && !body.isEmpty()) {
                             final String contextUri = "context.json";
                             final String frameUri = "searchanno-frame.json";
-                            e.getIn().setBody(FromRdf.toJsonLd(e.getIn().getBody().toString(), contextUri, frameUri));
+                            e.getIn().setBody(JsonLdProcessorUtils.toJsonLd(e.getIn().getBody().toString(), contextUri,
+                                    frameUri));
                         } else {
                             e.getIn().setHeader(CONTENT_TYPE, EMPTY);
                         }
