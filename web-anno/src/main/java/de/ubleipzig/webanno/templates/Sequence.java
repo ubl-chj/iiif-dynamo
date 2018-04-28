@@ -17,7 +17,7 @@ package de.ubleipzig.webanno.templates;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import de.ubleipzig.scb.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SCEnum;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class Sequence {
     private String id;
 
     @JsonProperty("@type")
-    private String type = SC._Sequence;
+    private String type = SCEnum.Sequence.compactedIRI();
 
     @JsonProperty("viewingHint")
     private String viewingHint;

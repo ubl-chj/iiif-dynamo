@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(':vocabulary')
+    implementation("de.ubleipzig:iiif.vocabulary:$iiifVocabularyVersion")
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
 }

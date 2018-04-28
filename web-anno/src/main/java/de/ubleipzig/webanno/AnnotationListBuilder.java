@@ -15,8 +15,8 @@ package de.ubleipzig.webanno;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import de.ubleipzig.scb.vocabulary.SC;
-import de.ubleipzig.scb.vocabulary.SEARCH;
+import de.ubleipzig.iiif.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SEARCH;
 import de.ubleipzig.webanno.templates.AnnotationDocument;
 import de.ubleipzig.webanno.templates.AnnotationList;
 import de.ubleipzig.webanno.templates.SearchHit;

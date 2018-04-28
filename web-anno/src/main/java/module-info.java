@@ -14,7 +14,7 @@
 module de.ubleipzig.webanno {
     requires com.fasterxml.jackson.core;
     requires jackson.annotations;
-    requires de.ubleipzig.scb.vocabulary;
+    requires de.ubleipzig.iiif.vocabulary;
     requires com.fasterxml.jackson.databind;
     exports de.ubleipzig.webanno;
     exports de.ubleipzig.webanno.templates;

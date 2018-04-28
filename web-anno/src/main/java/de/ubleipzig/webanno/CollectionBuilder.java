@@ -20,7 +20,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import de.ubleipzig.scb.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SCEnum;
 import de.ubleipzig.webanno.templates.Canvas;
 import de.ubleipzig.webanno.templates.Collection;
 import de.ubleipzig.webanno.templates.CollectionNode;
@@ -89,7 +90,7 @@ public class CollectionBuilder extends AbstractSerializer {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            node.setType(SC._Manifest);
+            node.setType(SCEnum.Manifest.compactedIRI());
             collectionNodes.add(node);
         });
         collectionNodes.sort(Comparator.comparing(CollectionNode::getLabel));

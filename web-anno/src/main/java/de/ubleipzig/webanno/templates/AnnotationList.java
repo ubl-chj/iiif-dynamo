@@ -16,7 +16,7 @@ package de.ubleipzig.webanno.templates;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import de.ubleipzig.scb.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SCEnum;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class AnnotationList {
     private String id;
 
     @JsonProperty("@type")
-    private String type = SC._AnnotationList;
+    private String type = SCEnum.AnnotationList.compactedIRI();
 
     @JsonProperty("resources")
     private List<TaggingAnnotation> resources;

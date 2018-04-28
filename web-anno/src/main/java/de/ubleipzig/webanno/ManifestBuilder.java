@@ -22,7 +22,7 @@ import static de.ubleipzig.webanno.Constants.trellisSequenceBase;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import de.ubleipzig.scb.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SC;
 import de.ubleipzig.webanno.templates.Canvas;
 import de.ubleipzig.webanno.templates.Manifest;
 import de.ubleipzig.webanno.templates.Sequence;

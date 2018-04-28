@@ -17,7 +17,7 @@ package de.ubleipzig.webanno.templates;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import de.ubleipzig.scb.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SCEnum;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class Collection {
     private String id;
 
     @JsonProperty("@type")
-    private String type = SC._Collection;
+    private String type = SCEnum.Collection.compactedIRI();
 
     @JsonProperty("attribution")
     private String attribution = "Provided by Leipzig University";

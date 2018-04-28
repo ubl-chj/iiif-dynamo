@@ -20,7 +20,7 @@ import static de.ubleipzig.webanno.Constants.domainLogo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import de.ubleipzig.scb.vocabulary.SC;
+import de.ubleipzig.iiif.vocabulary.SCEnum;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class Manifest {
     private String id;
 
     @JsonProperty("@type")
-    private String type = SC._Manifest;
+    private String type = SCEnum.Manifest.compactedIRI();
 
     @JsonProperty("attribution")
     private String attribution = domainAttribution;
