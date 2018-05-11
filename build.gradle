@@ -18,7 +18,7 @@ plugins {
 
 ext {
     /* Dependencies */
-    camelVersion = '2.20.0'
+    camelVersion = '2.21.0'
     commonsRdfVersion = '0.5.0'
     iiifVocabularyVersion = '0.1.1'
     jacksonVersion = '2.9.5'
@@ -107,6 +107,17 @@ subprojects {
         mapping {
             java = 'SLASHSTAR_STYLE'
         }
+    }
+
+    task processConfig(type: Copy) {
+        from('src/main/cfg') {
+            include '**/*.cfg'
+        }
+        into 'build/cfg/main'
+    }
+
+    classes {
+        classes.dependsOn processConfig
     }
 }
 

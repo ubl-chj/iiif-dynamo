@@ -1,0 +1,53 @@
+apply plugin: 'application'
+
+mainClassName = 'de.ubleipzig.dynamo.camel.Dynamo'
+description = 'A Camel service that assembles manifests from RDF queries'
+
+javaModule {
+    name = 'de.ubleipzig.dynamo'
+    hacks {
+        patches('org.apache.camel:camel-core-osgi', 'org.apache.camel:camel-core.')
+        patches('com.sun.xml.bind:jaxb-impl', 'javax.xml.bind:jaxb-api')
+        patches('com.sun.xml.bind:jaxb-core', 'javax.xml.bind:jaxb-api')
+        patches('org.apache.httpcomponents:httpcore', 'org.apache.httpcomponents:httpcore-osgi')
+        patches('org.apache.httpcomponents:httpcore-nio', 'org.apache.httpcomponents:httpcore-osgi')
+        patches('org.apache.httpcomponents:httpclient-osgi', 'org.apache.httpcomponents:httpclient')
+        patches('org.slf4j:jcl.over.slf4j', 'commons-logging:commons-logging')
+    }
+}
+
+dependencies {
+    patch "org.apache.camel:camel-core-osgi:${camelVersion}"
+    patch "com.sun.xml.bind:jaxb-core:${jaxbCoreVersion}"
+    patch "com.sun.xml.bind:jaxb-impl:${jaxbCoreVersion}"
+    patch "org.apache.httpcomponents:httpclient-osgi:$httpClientOsgiVersion"
+    patch "org.apache.httpcomponents:httpcore:${httpCoreOsgiVersion}"
+    patch "org.apache.httpcomponents:httpcore-nio:${httpCoreOsgiVersion}"
+    patch "commons-logging:commons-logging:${commonsLoggingVersion}"
+
+    implementation project(':webanno')
+
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion") {force = true}
+    implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion") {force = true}
+    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion") {force = true}
+    implementation("com.github.jsonld-java:jsonld-java:$jsonldVersion")
+    implementation("javax.activation:javax.activation-api:$activationApiVersion")
+    implementation("javax.xml.bind:jaxb-api:$jaxbVersion")
+    implementation("org.apache.camel:camel-jetty9:$camelVersion")
+    implementation("org.apache.camel:camel-http4:$camelVersion")
+    implementation("org.apache.camel:camel-spring-redis:$camelVersion")
+    implementation("org.apache.httpcomponents:httpclient-cache:$httpClientOsgiVersion")
+
+    testImplementation("org.apache.camel:camel-test:$camelVersion")
+    testImplementation("org.apache.camel:camel-jetty9:$camelVersion")
+    testImplementation("org.apache.camel:camel-http4:$camelVersion")
+    testImplementation("ch.qos.logback:logback-classic:$logbackVersion")
+}
+
+artifacts {
+    archives (file('build/cfg/main/de.ubleipzig.dynamo.cfg')) {
+        classifier 'configuration'
+        type 'cfg'
+    }
+}

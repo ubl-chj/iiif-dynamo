@@ -1,0 +1,76 @@
+{
+  "metadata": [
+    {
+      "label": "Collection Description",
+      "value": "Personal und Vorlesungsverzeichnisse"
+    }
+  ],
+  "@type": "sc:Collection",
+  "attribution": "Provided by Leipzig University",
+  "manifests": [
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1641&v2=",
+      "label": "Programmata, Ankündigungen 1641"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1642&v2=",
+      "label": "Programmata, Ankündigungen 1642"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1644&v2=",
+      "label": "Programmata, Ankündigungen 1644"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1648&v2=",
+      "label": "Programmata, Ankündigungen 1648"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1652&v2=",
+      "label": "Programmata, Ankündigungen 1652"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1653&v2=",
+      "label": "Programmata, Ankündigungen 1653"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1661&v2=",
+      "label": "Programmata, Ankündigungen 1661"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1662&v2=",
+      "label": "Programmata, Ankündigungen 1662"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1665&v2=",
+      "label": "Programmata, Ankündigungen 1665"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1667&v2=",
+      "label": "Programmata, Ankündigungen 1667"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1670&v2=",
+      "label": "Programmata, Ankündigungen 1670"
+    },
+    {
+      "@type": "sc:Manifest",
+      "@id": "http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=meta&v1=1672&v2=",
+      "label": "Programmata, Ankündigungen 1672"
+    }
+  ],
+  "logo": "http://iiif.ub.uni-leipzig.de/ubl-logo.png",
+  "label": "Universitätsbibliotek Leipzig",
+  "@id": "trellis:data/collection/vp/",
+  "@context": "http://iiif.io/api/presentation/2/context.json"
+}

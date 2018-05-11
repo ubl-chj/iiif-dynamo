@@ -3,10 +3,10 @@
 [![Build Status](https://travis-ci.org/ub-leipzig/iiif-dynamo.png?branch=master)](https://travis-ci.org/ub-leipzig/iiif-dynamo)
 
 An Apache Camel Jetty implementation that queries web annotations with SPARQL and dynamically constructs 
-IIIF Manifests and Collections.
+IIIF Manifests and Collections.  It also uses Redis to cache query results to produce instantaneous responses.
 
 ## Configuration
- * `application.properties` 
+ * `de.ubleipzig.dynamo.cfg` 
  * `de.ubleipzig.webanno.Constants`
 
 ## Building
@@ -15,6 +15,10 @@ To build run
 ```bash
 ./buildtools/src/install/install-jpms.sh
 ```
+## Running Docker Composition
+`docker-compose up`
+* This starts three containers `redis`, `dynamo` and `dynamo-search` on the `110_default` network (which is where the JDK10 
+[Trellis deployment](https://github.com/trellis-ldp/trellis-deployment/tree/master/trellis-compose/trellis-app-triplestore/1.10) lives)
 
 ## Endpoint
 The test query endpoint is exposed at `http://localhost:9095/dynamo`
@@ -23,14 +27,14 @@ The test query endpoint is exposed at `http://localhost:9095/dynamo`
 This example requests canvases with resources that have either metadata value `1676` or metadata value `1670`
 
 ```bash
-$ http://localhost:9095/dynamic?type=meta&v1=1676&v2=1670
+$ http://localhost:9095/dynamo?type=meta&v1=1676&v2=1670
 ```
 
 ## Example Endpoint Collection Type Query
 This example builds a collection of dynamic manifest identifiers by evaluating all possible metadata query values.
 
 ```bash
-$ http://workspaces.ub.uni-leipzig.de:9095/dynamo?type=collection
+$ http://localhost:9095/dynamo?type=collection
 ```
 
 ## Dependencies

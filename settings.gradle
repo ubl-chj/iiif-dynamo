@@ -1,4 +1,6 @@
 rootProject.name = 'iiif-dynamo'
-include 'iiif.dynamic'
-include 'web-anno'
+include ':dynamo'
+include ':webanno'
 
+project(':dynamo').projectDir = "$rootDir/dynamo" as File
+project(':webanno').projectDir = "$rootDir/webanno" as File

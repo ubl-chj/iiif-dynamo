@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /opt/dynamo/bin/dynamo-search
+exec /opt/dynamo/bin/dynamo-search.sh

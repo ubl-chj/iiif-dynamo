@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 MAINTAINER Christopher Johnson <christopher_hanna.johnson@uni-leipzig.de>
 LABEL description = "Provides IIIF Dynamo"
 
-ENV DYNAMO_VERSION 0.2.1-SNAPSHOT
+ENV DYNAMO_VERSION 0.3.0-SNAPSHOT
 ENV DYNAMO_RUNTIME /opt
 
 ENV JVM_BASE /usr/lib/jvm
@@ -30,8 +30,8 @@ COPY *.tar .
 RUN tar -xvf *.tar && \
 mv dynamo-${DYNAMO_VERSION} dynamo
 COPY dynamo/entrypoint.sh .
-COPY dynamo/dynamo /opt/dynamo/bin/dynamo
-RUN chmod +x ${DYNAMO_RUNTIME}/dynamo/bin/dynamo
+COPY dynamo/dynamo.sh /opt/dynamo/bin/dynamo.sh
+RUN chmod +x ${DYNAMO_RUNTIME}/dynamo/bin/dynamo.sh
 #COPY trellis.crt .
 #RUN /usr/lib/jvm/jdk-10/bin/keytool -cacerts -storepass changeit -noprompt -import -alias trellis -file trellis.crt
 RUN chmod +x entrypoint.sh

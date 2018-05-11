@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /opt/dynamo/bin/dynamo
+exec /opt/dynamo/bin/dynamo.sh

@@ -1,0 +1,401 @@
+{
+  "@context": {
+    "sc": "http://iiif.io/api/presentation/2#",
+    "iiif": "http://iiif.io/api/image/2#",
+    "exif": "http://www.w3.org/2003/12/exif/ns#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "cnt": "http://www.w3.org/2011/content#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dctypes": "http://purl.org/dc/dcmitype/",
+    "doap": "http://usefulinc.com/ns/doap#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "svcs": "http://rdfs.org/sioc/services#",
+    "as": "http://www.w3.org/ns/activitystreams#",
+    "service": {
+      "@id": "svcs:has_service",
+      "@type": "@id"
+    },
+    "profile": {
+      "@id": "doap:implements",
+      "@type": "@id"
+    },
+    "manifests": {
+      "@id": "sc:hasManifests",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "metadata": {
+      "@id": "sc:metadataLabels",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "sequences": {
+      "@id": "sc:hasSequences",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "canvases": {
+      "@id": "sc:hasCanvases",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "resources": {
+      "@id": "sc:hasAnnotations",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "images": {
+      "@id": "sc:hasImageAnnotations",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "otherContent": {
+      "@id": "sc:hasLists",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "height": "exif:height",
+    "width": "exif:width",
+    "viewingDirection": {
+      "@id": "sc:viewingDirection",
+      "@type": "@vocab"
+    },
+    "viewingHint": {
+      "@id": "sc:viewingHint",
+      "@type": "@vocab"
+    },
+    "paged": "sc:pagedHint",
+    "motivation": {
+      "@id": "oa:motivatedBy",
+      "@type": "@id"
+    },
+    "resource": {
+      "@id": "oa:hasBody",
+      "@type": "@id"
+    },
+    "on": {
+      "@id": "oa:hasTarget",
+      "@type": "@id"
+    },
+    "chars": "cnt:chars",
+    "format": "dc:format",
+    "value": "rdf:value",
+    "label": "rdfs:label"
+  },
+  "@graph": [
+    {
+      "@id": "trellis:data/collection/vp/target/3a1c1ba7-e447-5e29-ae61-3ca6db0fb717",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/d1df68d4-5dd8-4603-aaa1-7a5f7065242d",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000000.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/e7201b36-8fa6-581d-860e-28983dd18e93",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/3a1c1ba7-e447-5e29-ae61-3ca6db0fb717"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b1",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000000",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/51a92d3e-93d0-59f5-befb-30f382ee93c4",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/2adf70d7-9d62-4d57-9d7b-1b9c4926638d",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000002.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/4a492121-481b-5bae-9a6d-54b6b1dd4082",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/51a92d3e-93d0-59f5-befb-30f382ee93c4"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b4",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000002",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/5fae33f7-c8f4-5f86-9879-c59f1ddfc508",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/781535a2-9701-44d3-aa7b-05cf5bab44ae",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000004.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/ae63dcbb-de9d-5790-ba48-1c23a3fcdc8f",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/5fae33f7-c8f4-5f86-9879-c59f1ddfc508"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b7",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000004",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/656b9817-ffa2-5fa6-820e-aefa82492a8d",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/7481ff36-4b30-4197-b15e-df4f20e61ae8",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000003.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/82c9ce56-eb48-5231-a5bd-bcb1e98f82f0",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/656b9817-ffa2-5fa6-820e-aefa82492a8d"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b8",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000003",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/7a77a0b2-ffff-5f86-9549-a95589d849ab",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/141e98e8-253a-4c3b-bf5f-5a0092c42508",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000008.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/784b9268-5b80-5da5-a9fb-b8374f26710c",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/7a77a0b2-ffff-5f86-9549-a95589d849ab"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b6",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000008",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/9e01dfdb-8a48-59c1-8dc1-b820217cb34a",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/1860ac0b-a4f2-4fb0-bb39-e88393d5a328",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000007.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/937413a0-1fdf-5ec6-81f3-c39c8912ad8f",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/9e01dfdb-8a48-59c1-8dc1-b820217cb34a"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b9",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000007",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/a11b5106-d342-5f83-8d69-20d0679f594e",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/5ea4ab24-2e83-4b7d-a4b7-e905e38c328d",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000009.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/eb1958a6-ffb2-54d5-90b4-71ce82e3522e",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/a11b5106-d342-5f83-8d69-20d0679f594e"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b3",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000009",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/c538584b-a9cb-5c00-aa6f-7dc942b8f1ca",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/95c96e31-a21b-484a-b559-0ebc855a2886",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000006.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/ff59f168-1bce-5e67-8102-9c37a244c5fd",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/c538584b-a9cb-5c00-aa6f-7dc942b8f1ca"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b2",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000006",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/ec1f13c1-b8c6-571f-a0a5-04985cd8cbdb",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/6fc4a79f-d7ed-4f4a-83dc-3926c7041f7b",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000005.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/2690e4b5-c979-58f2-80ef-2d0b52f3c94a",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/ec1f13c1-b8c6-571f-a0a5-04985cd8cbdb"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b5",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000005",
+      "height": 2597,
+      "width": 2092
+    },
+    {
+      "@id": "trellis:data/collection/vp/target/f9ad1c8c-c964-5aea-804d-98d3062d2be1",
+      "@type": "sc:Canvas",
+      "images": [
+        {
+          "@id": "trellis:data/collection/vp/anno/6e23b7dc-c928-4521-b39a-520eea3da276",
+          "@type": "oa:Annotation",
+          "resource": {
+            "@id": "trellis:data/collection/vp/res/00000001.tif",
+            "service": {
+              "@id": "http://workspaces.ub.uni-leipzig.de:8182/iiif/2/43390f85-2ace-50a6-ab35-9ae019f1b3ad",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "profile": "http://iiif.io/api/image/2/level1.json"
+            },
+            "height": 2597,
+            "width": 2092
+          },
+          "on": "trellis:data/collection/vp/target/f9ad1c8c-c964-5aea-804d-98d3062d2be1"
+        }
+      ],
+      "metadata": [
+        {
+          "@id": "_:b0",
+          "value": "1641",
+          "label": "tag"
+        }
+      ],
+      "label": "00000001",
+      "height": 2597,
+      "width": 2092
+    }
+  ]
+}
