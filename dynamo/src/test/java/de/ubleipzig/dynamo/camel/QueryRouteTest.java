@@ -21,14 +21,13 @@ import static java.net.URLEncoder.encode;
 import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_CHARACTER_ENCODING;
 import static org.apache.camel.Exchange.HTTP_METHOD;
-import static org.apache.camel.Exchange.HTTP_QUERY;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
 
 import com.github.jsonldjava.core.JsonLdError;
 
 import de.ubleipzig.webanno.CollectionBuilder;
 import de.ubleipzig.webanno.ManifestBuilder;
-import de.ubleipzig.webanno.templates.AnnotationList;
+import de.ubleipzig.webanno.templates.Manifest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +50,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 public final class QueryRouteTest {
 
@@ -80,12 +78,6 @@ public final class QueryRouteTest {
     public static void main(final String[] args) throws Exception {
         LOGGER.info("About to run SPARQL API...");
         final JndiRegistry registry = new JndiRegistry(createInitialContext());
-
-        redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(CONNECTION_FACTORY);
-        redisTemplate.setDefaultSerializer(new StringRedisSerializer());
-        redisTemplate.afterPropertiesSet();
-        registry.bind("redisTemplate", redisTemplate);
         final CamelContext camelContext = new DefaultCamelContext(registry);
 
         camelContext.addRoutes(new RouteBuilder() {
@@ -174,7 +166,7 @@ public final class QueryRouteTest {
                 from("direct:buildEmpty")
                         .routeId("EmptyBuilder")
                         .process(e -> {
-                            final AnnotationList emptyList = new AnnotationList();
+                            final Manifest emptyList = new Manifest();
                             e.getIn().setBody(serialize(emptyList).orElse(""));
                         });
                 from("direct:buildManifest")
@@ -189,8 +181,7 @@ public final class QueryRouteTest {
                                                                                  .getBody()
                                                                                  .toString());
                             e.getIn().setBody(builder.build());
-                        })
-                        .to("direct:redis");
+                        });
                 from("direct:buildCollection")
                         .routeId("CollectionBuilder")
                         .removeHeader(HTTP_ACCEPT)
@@ -204,17 +195,6 @@ public final class QueryRouteTest {
                                                                                      .getBody()
                                                                                      .toString());
                             e.getIn().setBody(builder.build());
-                        })
-                    .to("direct:redis");
-                from("direct:redis")
-                        .routeId("Redis")
-                        .process(e -> {
-                            final String httpquery = e.getIn().getHeader(HTTP_QUERY).toString();
-                            final String body = e.getIn().getBody().toString();
-                            if (null == redisTemplate.opsForValue().get(httpquery)) {
-                                redisTemplate.opsForValue().set(httpquery, body);
-                            }
-                            e.getIn().setBody(redisTemplate.opsForValue().get(httpquery));
                         });
             }
         });

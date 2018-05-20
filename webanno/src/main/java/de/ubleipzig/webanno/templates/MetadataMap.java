@@ -11,18 +11,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@SuppressWarnings("removal")
-module de.ubleipzig.dynamo {
-    exports de.ubleipzig.dynamo.camel;
-    requires camel.core;
-    requires java.naming;
-    requires java.activation;
-    requires jsonld.java;
-    requires slf4j.api;
-    requires de.ubleipzig.webanno;
-    requires spring.data.redis;
-    requires org.apache.commons.rdf.api;
-    requires org.apache.jena.core;
-    requires org.apache.commons.rdf.jena;
-    requires org.apache.jena.arq;
+package de.ubleipzig.webanno.templates;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Map;
+
+public class MetadataMap {
+
+    @JsonProperty
+    private Map<String,String> metadataMap;
+
+    /**
+     *
+     * @param metadataMap Map
+     */
+    public void setMetadataMap(final Map<String,String> metadataMap) {
+        this.metadataMap = metadataMap;
+    }
+
+    /**
+     *
+     * @return Map
+     */
+    public Map<String,String> getMetadataMap() {
+        return metadataMap;
+    }
 }

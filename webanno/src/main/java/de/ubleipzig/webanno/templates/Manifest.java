@@ -17,6 +17,8 @@ package de.ubleipzig.webanno.templates;
 import static de.ubleipzig.webanno.Constants.domainAttribution;
 import static de.ubleipzig.webanno.Constants.domainLogo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -29,6 +31,7 @@ import java.util.List;
  *
  * @author christopher-johnson
  */
+@JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({"@context", "@id", "@type", "attribution", "logo", "sequences", "service"})
 public class Manifest {
 

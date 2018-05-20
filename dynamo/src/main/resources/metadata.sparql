@@ -1,0 +1,11 @@
+PREFIX sc: <http://iiif.io/api/presentation/2#> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?manifest ?title ?k ?mvalue WHERE {
+?manifest rdfs:label ?title .
+?manifest sc:metadataLabels ?llist .
+?llist rdf:rest* ?lmid .
+?lmid rdf:first ?label .
+?label rdfs:label ?k .
+?label rdf:value ?mvalue .
+?lmid rdf:rest ?llast .}

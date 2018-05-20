@@ -15,11 +15,14 @@
 package de.ubleipzig.webanno.templates;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Map;
 
+@JsonInclude(Include.NON_NULL)
 public class Canvas {
 
     @JsonProperty("@id")

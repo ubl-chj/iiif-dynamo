@@ -32,6 +32,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion") {force = true}
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion") {force = true}
     implementation("com.github.jsonld-java:jsonld-java:$jsonldVersion")
+    implementation("de.ubleipzig:commons-rdf-jena-jpms:$commonsRdfJenaVersion")
     implementation("javax.activation:javax.activation-api:$activationApiVersion")
     implementation("javax.xml.bind:jaxb-api:$jaxbVersion")
     implementation("org.apache.camel:camel-jetty9:$camelVersion")
@@ -39,6 +40,7 @@ dependencies {
     implementation("org.apache.camel:camel-spring-redis:$camelVersion")
     implementation("org.apache.httpcomponents:httpclient-cache:$httpClientOsgiVersion")
 
+    testImplementation("de.ubleipzig:jena.core-jpms:$jenaVersion")
     testImplementation("org.apache.camel:camel-test:$camelVersion")
     testImplementation("org.apache.camel:camel-jetty9:$camelVersion")
     testImplementation("org.apache.camel:camel-http4:$camelVersion")

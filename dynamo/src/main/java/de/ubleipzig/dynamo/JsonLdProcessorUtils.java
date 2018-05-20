@@ -14,14 +14,20 @@
 
 package de.ubleipzig.dynamo;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import com.github.jsonldjava.core.JsonLdConsts;
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import org.slf4j.Logger;
 
@@ -38,9 +44,9 @@ public final class JsonLdProcessorUtils {
     private static final Logger log = getLogger(JsonLdProcessorUtils.class);
 
     /**
-     * @param ntriples String
+     * @param ntriples   String
      * @param contextUri String
-     * @param frameUri String
+     * @param frameUri   String
      * @return String
      * @throws IOException IOException
      * @throws JsonLdError JsonLdError
@@ -50,8 +56,7 @@ public final class JsonLdProcessorUtils {
 
         final JsonLdOptions opts = new JsonLdOptions();
         opts.setUseNativeTypes(true);
-        final ClassLoader classloader = Thread.currentThread()
-                                              .getContextClassLoader();
+        final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         final InputStream is = classloader.getResourceAsStream(contextUri);
         final Object ctxobj = JsonUtils.fromInputStream(is);
         if (PatternUtils.isNotEmpty(ntriples)) {
@@ -68,5 +73,23 @@ public final class JsonLdProcessorUtils {
             log.info(empty);
         }
         return null;
+    }
+
+    /**
+     *
+     * @param jsonLd String
+     * @return InputStream
+     * @throws IOException IOException
+     * @throws JsonLdError JsonLdError
+     */
+    public static InputStream toRDF(final String jsonLd) throws IOException, JsonLdError {
+        final JsonLdOptions options = new JsonLdOptions();
+        options.format = JsonLdConsts.APPLICATION_NQUADS;
+        final Object expanded = com.github.jsonldjava.core.JsonLdProcessor.toRDF(JsonUtils.fromString(jsonLd), options);
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final Writer writer = new OutputStreamWriter(out, UTF_8);
+        writer.write(String.valueOf(expanded));
+        writer.flush();
+        return new ByteArrayInputStream(out.toByteArray());
     }
 }
